@@ -1,0 +1,824 @@
+
+<template>
+  <div id="maindiv">
+   <v-card>
+    
+    <v-layout wrap > 
+        <v-flex xs12  class="text-xs-center">
+        <v-progress-circular
+          indeterminate
+          class="primary--text"
+          :width="7"
+          :size="150"
+          v-if="loading"></v-progress-circular>
+      </v-flex>
+    </v-layout>
+    <v-card>
+          <transition name="slidetoleft" appear>
+       <v-card-title wrap >
+        <h3>Pregled svih prijavljenih učenika</h3> </v-card-title>
+          </transition>
+      <v-layout wrap justify-end >
+        <v-flex xs3 class="mb-2 mr-3">
+        <v-text-field      
+        v-model="search"
+        append-icon="search"
+        label="Pretraga"
+        single-line
+        hide-details
+      ></v-text-field>     
+      
+        </v-flex>
+      
+        <v-btn dark class="navbarcolor mt-2 mr-4"  @click.native="reloadPage">
+          <img class ="mr-3 " :src=rangiraj.srcmain>   Rangiraj
+        </v-btn>  
+        <v-btn dark class="navbarcolor mt-2 mr-4"  @click.native="reloadPage">
+             PDF
+        </v-btn> 
+      </v-layout>
+   <transition name="fade" appear  mode="in-out">
+        <v-flex xs12>
+          <!-- Glavna tabela prikaza svih prijavljenih ucenika -->
+    <v-data-table  
+      :headers="headers"
+      :items="ucenici"
+       v-if="!loading"
+      rows-per-page-text="Redova po stranici"
+      
+      :rows-per-page-items="[10,15,20,ucenici.length]"
+      :search="search"
+      :custom-filter="customFilter"
+      class="elevation-1"   
+      
+     >
+      <template slot="items" slot-scope="props" reloadPage1
+        v-if="((props.item.pol.nazivPola == polKandidata)||(props.item.bodoviZaUpis >= brojBodovaZaPrijem)&&((props.item.pol.nazivPola == polZenski) || (props.item.pol.nazivPola == polMuski)) && props.item.statusPrijave.id !=3 )" 
+        
+      >
+        <tr >
+        <td  class="text-xs-left priority-1"  >{{ props.item.id}}</td>
+          <td class="text-xs-left priority-1">{{ props.item.statusPrijave.status }}</td>
+            <td class="text-xs-left priority-1">{{ props.item.bodoviZaUpis }}</td>
+        <td class="text-xs-left priority-1">{{ props.item.ime }}</td>
+        <td class="text-xs-left priority-1">{{ props.item.prezime }}</td> 
+         <td class="text-xs-left priority-5">{{ props.item.razred.brojRazreda }}</td>
+        <td class="justify-center layout px-0">
+          <v-btn center icon class="mx-0"
+           @click="deleteItem(props.item)">
+              <img :src=kanta.srcmain>
+          </v-btn>
+             <v-btn center icon class="mx-0"
+          v-bind:to="'/detalji/'+props.item.id">          
+         <img :src=izmena.srcmain>
+          </v-btn>
+        </td>
+     </tr>
+      </template>
+       <template slot="no-data">
+      <v-alert :value="true" color="error" icon="warning">
+        Nema nijednog ucenika ili se nisu jos ucitali.
+      </v-alert> 
+    </template>
+    <template slot="pageText" slot-scope="{ pageStart, pageStop }">
+         {{ pageStart }} - {{ pageStop }} od {{ ucenici.length}}
+</template>
+    <v-alert slot="no-results" :value="true" color="error" icon="warning">
+        Vasa pretraga za "{{ search }}" nije pronasla rezultate.
+      </v-alert>
+    </v-data-table>
+    </v-flex>
+</transition >
+    </v-card>
+</v-card>
+<v-btn dark class="navbarcolor "  @click="(polMuski='Muški'),(polZenski='Muški')">
+             Prikaz muskih kandidata
+        </v-btn>
+         
+        <v-btn dark class="navbarcolor mt-2 mr-4"  @click="(polMuski='Muški'),(polZenski='Ženski')">
+             Pretraga svih kandidata
+        </v-btn>
+        
+        <v-btn  dark class="navbarcolor mt-2 mr-4"  @click="(polMuski='Ženski'),(polZenski='Ženski')">
+              Prikaz zenskih kandidata
+
+        </v-btn>
+          <template>
+            <!-- <v-form @submit.prevent = PrijavljenUcenik> -->
+                 <v-container fluid>
+                    <v-layout row wrap>
+                    <v-flex offset-sm1  xs12 sm5 class="mt-4 ">
+                        <v-text-field
+                        type="number"
+                        color="navbarcolor"
+                        v-model="brojMuskihKandidata"
+                        label="Broj muskih kandidata" 
+                        required                 
+                        clearable
+                        
+                        ></v-text-field>
+                          </v-flex>
+                           <v-flex xs12 sm3 offset-sm1 class="mt-4">
+                              
+                            </v-flex>
+                          </v-layout>
+                        </v-container>
+                      
+                 <v-container fluid>
+                    <v-layout row wrap>
+                    <v-flex offset-sm1  xs12 sm5 class="mt-4 ">
+                        <v-text-field
+                        type="number"
+                        color="navbarcolor"
+                        v-model="brojZenskihKandidata"
+                        label="Broj zenskih kandidata" 
+                        required                 
+                        clearable
+                        
+                        ></v-text-field>
+                          </v-flex>
+                           <v-flex xs12 sm3 offset-sm1 class="mt-4">
+                             
+                            
+                            </v-flex>
+                          </v-layout>
+                        </v-container>
+                         <v-container fluid>
+                    <v-layout row wrap>
+                    <v-flex offset-sm1  xs12 sm5 class="mt-4 ">
+                        <v-text-field
+                        type="number"
+                        color="navbarcolor"
+                        v-model="brojBodova"
+                        label="Broj bodova" 
+                        required                 
+                        clearable
+                        
+                        ></v-text-field>
+                          </v-flex>
+                           <v-flex xs12 sm3 offset-sm1 class="mt-4">
+                              <v-btn 
+                v-on:click="primiUdom"
+                >
+                Potvrdi
+                </v-btn>
+                            </v-flex>
+                          </v-layout>
+                        </v-container>
+                        <!-- </v-form> -->
+                      </template>
+  </div>
+</template>
+
+<script>
+/* eslint-disable */
+import moment from 'moment'
+import axios from 'axios'
+
+
+  export default {
+    data: () => ({
+      
+      polMuski: 'Muški',
+      polZenski: 'Ženski',
+      polKandidata:'',
+      brojBodova:0,
+      brojBodovaZaPrijem:0,
+      brojMuskihKandidata: 0,
+      brojZenskihKandidata: 0,
+      pomocnaZaPol: 0,
+      // dialog je promenljiva koja sluzi za prikazivanje dijaloga pri menjanju ili prijavi ucenika
+      dialog: false,
+      select: '',
+      opcijeX: [
+        'Ime',
+        'Prezime',
+        'Škola'
+      ],
+      kanta: { srcmain: require('../../assets/KANTA2.png')},
+      izmena: { srcmain: require('../../assets/EDIT.png')} ,
+       rangiraj: { srcmain: require('../../assets/RangirajIkona.png')} ,
+      // headeri sluze za generisanje polja koja se prikazuju u tabeli
+      headers: [
+        {
+        text: 'Redni broj',  align: 'left', sortable: false,  value: 'id', width:'100%' ,class: 'priority-1'},
+        { text: 'Status',value: 'statusPrijave.status' ,align: 'left',sortable:true, width:'100%',class: 'priority-1'},
+        { text: 'Br bodova',value: 'bodoviZaUpis' ,align: 'left',sortable:true, width:'100%',class: 'priority-1'},
+        { text: 'Ime',value: 'ime' ,align: 'left',sortable:true, width:'100%',class: 'priority-1'},
+        { text: 'Prezime', value:'prezime', align: 'left',sortable:true,width:'100%',class: 'priority-1'},
+        { text: 'Razred', value: 'razred.brojRazreda',align: 'left',sortable:true ,width:'100%',class: 'priority-5'},
+        { text: 'Opcije', value: 'opcije',align: 'center',sortable:false,width:'100%' }
+      ],
+      // pomocna promenljiva za generisanje podatka o datumu rodjenja
+      datum: null,
+      search: '',
+        file: '',
+        showPreview: false,
+        imagePreview: '',
+      // atribut za jmbg progress bar
+      bodoviZaUpis: '',
+      custom: true,
+      editedIndex: -1,
+      // brojevi su pomocna prom za rad sa postanskim brojevima
+      brojevi: '',
+      // objekat koji sluzi kao maska za prijavu ucenika, koristi se pri prijavi i izmeni podataka o uceniku
+      editedItem: {
+        ime: '',
+        prezime: '',
+        jmbg: '',
+        adresa: '',
+        statusPrijave: {
+          id: '',
+          status:''
+          },
+        prethodniUspeh: '',
+       pol: {
+          id: '',
+          nazivPola: ''
+       },
+        dan: '',
+        mesec: '',
+        godina: '',
+        mestoZavrseneSkole: {
+          id: '',
+          nazivMesta: ''
+        },
+        mestoRodjenja: {
+          id: '',
+          nazivMesta: ''
+        },
+        mestoPrebivalista: {
+          id: '',
+          nazivMesta: ''
+        },
+        prethodnaSkola: {
+          id: '',
+          nazivPrethodneSkole: '',
+          opstinaId: '',
+        },
+          upisanaSkola: {
+            id: '',
+            nazivSrednjeSkole: '',
+            opstinaId: ''
+        },
+        postanskiBroj: {
+          id: '',
+          broj: '',
+          opstinaId: ''
+          },
+        opstina: {
+          id: '',
+          nazivOpstine: ''         
+          },
+        opstinaPrebivalista: {
+          id: '',
+          nazivOpstine: ''         
+          },
+        drzavaRodjenja: {
+          id: '',
+          nazivDrzave: ''
+          },
+        telefon: {
+          id: '',
+          mobilni: '',
+          kucni: ''
+          },
+          smer: {
+            id:'',
+            nazivSmera: ''
+          },
+          razred:{
+            id: '',
+            brojRazreda: ''
+          },
+          roditelji:[
+            {
+              ime:'',
+              prezime: '',
+              brojTelefona: '',
+              stepenObrazovanjaId: ''
+            },
+               {
+              ime:'',
+              prezime: '',
+              brojTelefona: '',
+              stepenObrazovanjaId: ''
+            }
+          ],
+           tipPorodice:{
+                id: '',
+                nazivTipaPorodice: ''
+           },
+           staratelji:{
+               ime:  '',
+               prezime:   ''
+               
+            },
+           slika: '',
+           materijalniPrihodi: '',
+            vaspitnaGrupa:{
+              id:'',
+              naziv: ''
+            }
+      },
+    // defaultItem je objekat koji je po strukturi identican editedItemu i sluzi za resetovanje podataka u editedItemu na prazne podatke
+    // pri zavrsetku prijave ili izmene podataka o uceniku
+      defaultItem: {
+        ime: '',
+        prezime: '',
+         bodoviZaUpis: '',
+        jmbg: '',
+          statusPrijave: {
+          id: '',
+          status:''
+          },
+        adresa: '',
+        prethodniUspeh: '',
+       pol: {
+          id: '',
+          nazivPola: ''
+       },
+        dan: '',
+        mesec: '',
+        godina: '',
+        mestoZavrseneSkole: {
+          id: '',
+          nazivMesta: ''
+        },
+        mestoRodjenja: {
+          id: '',
+          nazivMesta: ''
+        },
+        mestoPrebivalista: {
+          id: '',
+          nazivMesta: ''
+        },
+        prethodnaSkola: {
+          id: '',
+          nazivPrethodneSkole: '',
+          opstinaId: '',
+        },
+          upisanaSkola: {
+            id: '',
+            nazivSrednjeSkole: '',
+            opstinaId: ''
+          
+        },
+        postanskiBroj: {
+          id: '',
+          broj: '',
+          opstinaId: ''
+          },
+        opstina: {
+          id: '',
+          nazivOpstine: ''         
+          },
+        opstinaPrebivalista: {
+          id: '',
+          nazivOpstine: ''         
+          },
+        drzavaRodjenja: {
+          id: '',
+          nazivDrzave: ''
+          },
+        telefon: {
+          id: '',
+          mobilni: '',
+          kucni: ''
+          },
+          smer: {
+            id:'',
+            nazivSmera: ''
+          },
+          razred:{
+            id: '',
+            brojRazreda: ''
+          },
+         roditelji:[
+            {
+              ime:'',
+              prezime: '',
+              brojTelefona: '',
+              stepenObrazovanjaId: ''
+
+            },
+               {
+              ime:'',
+              prezime: '',
+              brojTelefona: '',
+              stepenObrazovanjaId: ''
+            }
+          ],
+           tipPorodice:{
+                id: '',
+                nazivTipaPorodice: ''
+           },
+           staratelji:{
+               ime:  '',
+               prezime:   ''
+              
+            },
+           slika: '',
+           materijalniPrihodi: '',      
+           vaspitnaGrupa:{
+              id:'',
+              naziv: ''
+            }
+      }
+    }),
+    // computed metode su metode koje se desavaju onda kada dodje do nekakvim promena stanja komponente, neki vid watcher-a
+    computed: {
+      // logika za racunanje progress bar-a kod jmbg, 105 je prva granica a drugi parametar u math.min funkciji sluzi za formiranje 13 podeoka 
+      // na progress baru za 13 jmbg cifara, dalje se ovi rezultati koriste za prikaz promene boja na progress baru
+          progress () {
+        return Math.min(105, this.editedItem.jmbg.length * 7.69)
+      },
+      // boja progress bara se generise u opsezima koji se odredjuju na osnovo trenutne vrednosti promenljive progress koja govori
+      // dokle je stigao progress bar, 4 zone su crvena, narandzasta, zelena i na kraju opet crvena kad se predje 13 cifara
+      color () {
+      
+        return ['error', 'warning', 'success','error'][Math.floor(this.progress / 34)]
+      },
+      // metoda koja vodi racuna o tome da se ne moze prijaviti ucenik koji nije ispunio sve neophodne podatke prilikom prijave ili izmene podataka 
+      TipoviPorodice () {
+        return this.$store.getters.loadedTipoviPorodice
+      },
+      // pozivi store action metoda za preuzimanje neophodnih podataka za prijavu ucenika
+      StepeniStrucneSpreme () {
+        return this.$store.getters.loadedSSS
+      },
+      razredi () {
+        return this.$store.getters.loadedRazredi
+      },
+      srednjeSkole () {
+       return this.$store.getters.loadedSrednjeSkole       
+      },
+      osnovneSkole () {
+       return this.$store.getters.loadedOsnovneSkole       
+      },
+      mesta () {
+       return this.$store.getters.loadedMesta       
+      },
+      smerovi () {
+       return this.$store.getters.loadedSmer       
+      },
+      polovi () {
+       return this.$store.getters.loadedPolovi       
+      },
+      postanskiBrojevi () {
+       return this.$store.getters.loadedPostanskiBrojevi       
+      },
+      ucenici () {
+       return this.$store.getters.loadedUcenici       
+      },
+       opstine () {
+       return this.$store.getters.loadedOpstine  
+           
+       },
+       drzave () {
+       return this.$store.getters.loadedDrzave
+           
+    },
+      loading () {
+        return this.$store.getters.loading
+      },
+      // promenljiva koja menja naslov dijaloga, ako se odabere za prijavu dobija sa prvi naslov, drugi naslov ako se radi o izmeni podataka
+      formTitle () {
+        return this.editedIndex === -1 ? 'Prijava novog ucenika' : 'Izmena podataka'
+      },
+      created: function(){
+       this.DugmeSubmit();
+    }
+    ,
+    },
+    
+    
+    // watch se koristi kad se radi sa dijalozima
+    watch: {
+      dialog (val) {
+
+        val || this.close()
+      }
+    },
+    methods: {
+      
+ /*  DugmeSubmit : function(){
+      console.log("sssssss");
+         PrijavljenUcenik()   
+    },*/
+    // PrijavljenUcenik(){
+    //    this.form.post('http://localhost:62768/api/Primljeni/', {
+    //      brojMuskihKandidata: this.brojMuskihKandidata,
+    //      brojZenskihKandidata: this.brojZenskihKandidata,
+    //      brojBodova: this.brojBodova
+    //    })
+    //     .then(function (response) {
+    //       console.log(response); // sta radi kad uspe
+    //     })
+    //     .catch(function (error) {
+    //       console.log(error); //sta radi ako ne prodje
+    //     });
+    //     this.$router.push('/PregledUcenika')
+    // },
+      primiUdom() {
+        const parametriZaPrijavu = {
+          brojMuskih: 2,
+          brojZenskih: 3,
+          bodovi: 30
+        };
+
+       
+        axios.post('http://localhost:62768/api/Primljeni/', parametriZaPrijavu)
+        .then(function (response) {
+          console.log(response.data);
+          //console.log(parametriZaPrijavu);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+        // axios.post('http://localhost:62768/api/Primljeni/', parametriZaPrijavu, {
+        //   headers: {
+        //   'content-type': 'application/json'
+        //   }
+        // })
+      },
+      
+       reloadPage1(){
+          
+   console.log('yo')
+   
+  },
+        reloadPage(){
+          
+   console.log('yo')
+   this.$store.dispatch('loadedUcenici')
+  },
+  stampaj(){
+    this.$store.dispatch('loadedPDF')
+  },
+         ClearPicture(){
+   this.file=''
+   this.imagePreview=''
+    this.editedItem.slika= ''
+    	const input = this.$refs.file;
+        input.type = 'text';
+        input.type = 'file';
+      },
+
+           handleFileUpload(){
+        
+      
+        this.file = this.$refs.file.files[0];
+
+
+        let reader  = new FileReader();
+
+       this.editedItem.slika=null;
+        reader.addEventListener("load", function () {
+          this.showPreview = true;
+          this.imagePreview = reader.result;
+            this.editedItem.slika= reader.result
+        }.bind(this), false);
+
+        if( this.file ){      
+          if ( /\.(jpe?g|png|gif)$/i.test( this.file.name ) ) {
+            reader.readAsDataURL( this.file );
+          }
+        }
+      },
+   
+      changedTip: function(value) {
+     this.editedItem.staratelji.ime=''
+     this.editedItem.staratelji.prezime=''
+      },
+      // metoda koja na osnovu odabrane opstine prikazuje njene jedinstvene postanske brojeve
+      changedValue: function(value) {
+        function broj (opstina){
+          return opstina.id===value
+        }
+        this.editedItem.postanskiBroj.id=''
+      this.brojevi=this.opstine.find(broj)
+      },
+
+      // metoda koja daje funkcionalnost pretrage, moze se pretrazivati po svim podacima o uceniku
+      customFilter(items, search, filter) {
+      search = search.toString().toLowerCase()
+       // ovo su podaci koji su odmah vidljivi u tabeli 
+     /// var  filtered= items.filter(i => (
+    //  Object.keys(i).some(j => filter(i[j], search)) 
+   // ))
+    var filtered =''
+    if (filtered.length !== 0)
+    return filtered
+    // podaci koji nisu vidljivi u kolonama/redovima tabela vec samo kada se klikne na ucenika radi prikaza svih preostalih podataka
+    else
+    {
+              return items.filter((item) => {
+          
+           // postoji prioritet pretrage koji je ovde prikazan u poretku uslova, najveci prioritet za drzave pa nazive opstina itd...
+        return item.statusPrijave.status.toLowerCase().match(this.search.toLowerCase()) ||
+        item.ime.toLowerCase().match(this.search.toLowerCase()) ||
+        item.prezime.toLowerCase().match(this.search.toLowerCase()) ||
+        item.razred.brojRazreda.toLowerCase().match(this.search.toLowerCase()) || 
+       // item.mestoRodjenja.nazivMesta.toLowerCase().match(this.search.toLowerCase()) ||
+        item.smer.nazivSmera.toLowerCase().match(this.search.toLowerCase()) ||
+      //  item.prethodnaSkola.nazivPrethodneSkole.toLowerCase().match(this.search.toLowerCase()) ||
+        item.upisanaSkola.nazivSrednjeSkole.toLowerCase().match(this.search.toLowerCase()) 
+      //  item.postanskiBroj.broj.toLowerCase().match(this.search.toLowerCase()) ||
+
+
+        })
+    }
+        },
+        // v-date-picker generise datum u DD-MM-GGGG formatu koji treba prebaciti u 3 promenljive za dan, mesec i godinu pre nego sto se
+        // zeli raditi sa PUT ili POST metodama
+       formatiranjeDatuma()
+      {
+       
+          if(this.datum !== null)
+          {
+          const dan=this.datum.slice(-2); 
+          this.editedItem.dan=dan
+          const mesec=this.datum.substr(5,2)
+          this.editedItem.mesec=mesec
+          this.editedItem.godina=this.datum.substring(0,4)
+          }
+
+       
+      },
+      editItem (item) {
+        this.editedIndex = this.ucenici.indexOf(item)
+        this.editedItem = Object.assign({}, item)
+        this.previousItem = Object.assign({}, item)
+        this.dialog = true
+      },
+      deleteItem (item) {
+        const index = this.ucenici.indexOf(item)
+    // pitanje za potrvrdu o brisanju gde ako se odabere potvrdan odgovor vrsi se poziv HTTP delete-a i brisanje ucenika iz vue-x store-a sa splice
+    // na mestu index i broj 1 predstavlja broj ucenika koji se brisu
+        confirm('Da li ste sigurni da zelite da izbrisete ovog ucenika?') && this.$store.dispatch('deleteUcenik',item.id)
+         && this.ucenici.splice(index,1)
+      },
+    // ako se odabere opcija close na dijalogu treba editeditem vratiti na pocetni sa praznim podacima
+      close () {
+        
+        this.dialog = false
+        setTimeout(() => {
+           this.editedItem = Object.assign({}, this.defaultItem)
+             this.file=''
+             this.imagePreview=''
+           this.datum=null
+          this.editedIndex = -1
+        }, 300)
+      },
+      // ako se odabere potvrdan odgovor na dijalogu treba uradilit POST ili PUT metod u zavisnosti da li se radi o prijavi ili izmeni ucenika
+      save () {
+        // na osnovu toga da li postoji editedindex proveravamo da li se radi o novom ili starom uceniku
+        // ako postoji onda je stari ucenik i radi se PUT zahtev nakon kojeg se datum i editedItem postavljaju na pocetne vrednosti
+        if (this.editedIndex > -1) {    
+          this.formatiranjeDatuma()
+        
+          this.editedItem.roditelji.ucenikID= this.editedItem.id
+          
+          this.$store.dispatch('editUcenik',this.editedItem)
+          this.editedItem = Object.assign({}, this.defaultItem)
+          this.file=''
+          this.imagePreview=''
+          this.datum=null
+        } else {
+          // u suprotnom radi se o novom uceniku te se vrsi POST metod nakon kojeg se editedItem i datum postavljaju na pocetne vrednosti
+          this.formatiranjeDatuma() 
+         
+          this.$store.dispatch('createUcenik',this.editedItem)
+          this.editedItem = Object.assign({}, this.defaultItem)
+          this.file=''
+          this.imagePreview=''
+          this.datum=null
+        }
+        this.close()
+      }   
+      },
+     
+        
+      
+
+  }
+</script>
+
+<style >
+.slidetoleft-enter{
+  opacity: 0;
+}
+
+.slidetoleft-enter-active{
+  animation: slidetoleft-in 1s ease-out forwards;
+  transition: opacity 2s ease-out;
+  
+}
+
+.slidetoleft-leave-active {
+  animation: slidetoleft-out 1s ease-out forwards;
+  transition: opacity 2s ease-out;
+  opacity: 0;
+}
+
+#maindiv 
+{
+  vertical-align: top;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 2s ease-out;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
+/* Css koji iskljucuje na input poljima za brojeve HTML5 spinner za brojeve */
+
+input[type="number"]::-webkit-outer-spin-button, 
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* menanje inicijalnog izgleda tabele*/
+
+
+table {
+  border-top: 1px solid grey   !important;
+  border-bottom: 1px solid grey  !important;
+  table-layout: fixed; width: 100%;
+}
+tr:nth-child(even) {background-color: lightgrey;}
+td:nth-child(odd) {
+    white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+
+
+}td:nth-child(even) {
+    white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+ 
+
+}
+/* responsive tabele, uklanjanje kolona */
+      @media screen and (max-width: 1225px) and (min-width: 1045px) {
+        /* prioriteti prikaza polja u tabelama i kod za proveru istih na osnovu prikaza ekrana u pikselima*/
+		.priority-5{
+			display:none;
+		}
+    
+	}
+	
+	@media screen and (max-width: 1045px) and (min-width: 835px) {
+		.priority-5{
+			display:none;
+		}
+		.priority-4{
+			display:none;
+		}
+	}
+	
+	@media screen and (max-width: 565px) and (min-width: 300px) {
+		.priority-5{
+			display:none;
+		}
+		.priority-4{
+			display:none;
+		}
+		.priority-3{
+			display:none;
+		}
+	}
+	
+	@media screen and (max-width: 300px) {
+		.priority-5{
+			display:none;
+		}
+		.priority-4{
+			display:none;
+		}
+		.priority-3{
+			display:none;
+		}
+		.priority-2{
+			display:none;
+		}
+	
+	}
+
+
+  .responsive {
+    width: 100%;
+    height: auto;
+    
+}
+</style>

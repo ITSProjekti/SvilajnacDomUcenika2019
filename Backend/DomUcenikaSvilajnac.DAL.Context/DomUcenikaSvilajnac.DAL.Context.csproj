@@ -1,0 +1,67 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20180627093448_OpstinaPrebivalista.cs" />
+    <Compile Remove="Migrations\20180627093622_OpstinaPrebivalista.cs" />
+    <Compile Remove="Migrations\20180627093929_OpstinaPrebivalista.cs" />
+    <Compile Remove="Migrations\20180627105534_UklanjanjePolaIzModelaUcenika.cs" />
+    <Compile Remove="Migrations\20180629090748_PostanskiBrojeviOpstina.cs" />
+    <Compile Remove="Migrations\20180706093108_SpajanjeTabeleUcenikiUpisaneSkoleSaOpstinom.cs" />
+    <Compile Remove="Migrations\20180706093248_SpajanjeTabeleUcenikiUpisaneSkoleSaOpstinom.cs" />
+    <Compile Remove="Migrations\20180706093453_SpajanjeTabeleUcenikiUpisaneSkoleSaOpstinom.cs" />
+    <Compile Remove="Migrations\20180706093643_SpajanjeTabeleUcenikiUpisaneSkoleSaOpstinom.cs" />
+    <Compile Remove="Migrations\20180706094046_SpajanjeTabeleUcenikiUpisaneSkoleSaOpstinom.cs" />
+    <Compile Remove="Migrations\20180706094151_SpajanjeTabeleUcenikiUpisaneSkoleSaOpstinom.cs" />
+    <Compile Remove="Migrations\20180706094244_SpajanjeTabeleUcenikiUpisaneSkoleSaOpstinom.cs" />
+    <Compile Remove="Migrations\20180706094514_SpajanjeTabeleUcenikiUpisaneSkoleSaOpstinom.cs" />
+    <Compile Remove="Migrations\20180706094552_SpajanjeTabeleUcenikiUpisaneSkoleSaOpstinom.cs" />
+    <Compile Remove="Migrations\20180709083936_SpajanjeOpstineIOsnovneSkole.cs" />
+    <Compile Remove="Migrations\20180709084039_SpajanjeOpstineIOsnovneSkole.cs" />
+    <Compile Remove="Migrations\20180709085445_OsnovnaiSrednjaSkolauUcenikuId.cs" />
+    <Compile Remove="Migrations\20180709085757_OsnovnaiSrednjaSkolauUcenikuId.cs" />
+    <Compile Remove="Migrations\20180709085954_OsnovnaiSrednjaSkolauUcenikuId.cs" />
+    <Compile Remove="Migrations\20180709090245_OsnovnaiSrednjaSkolauUcenikuId.cs" />
+    <Compile Remove="Migrations\20180709114930_SeedovanjeMesta.cs" />
+    <Compile Remove="Migrations\20180709121118_SeedovanjeOsnovnihSkola.cs" />
+    <Compile Remove="Migrations\20180712111047_RazredUcenika.cs" />
+    <Compile Remove="Migrations\20180814081511_SlikaUcenika.cs" />
+    <Compile Remove="Migrations\20180814085526_TipPorodice.cs" />
+    <Compile Remove="Migrations\20180814093226_SpajanjeUcenikaSaTipomPorodice.cs" />
+    <Compile Remove="Migrations\20180814100121_StarateljiRoditelja.cs" />
+    <Compile Remove="Migrations\20180814104322_PovezivanjeUcenikaSaStarateljom.cs" />
+    <Compile Remove="Migrations\20180816091502_MaterijalniPrihodiUcenika.cs" />
+    <Compile Remove="Migrations\20180817083858_SlikaUcenikaIOstaliAtributi.cs" />
+    <Compile Remove="Migrations\20180817113709_PohvaleIKazneUcenika.cs" />
+    <Compile Remove="Migrations\20180913085708_PohvalaUcenika.cs" />
+    <Compile Remove="Migrations\20180913090107_PohvalaUcenika.cs" />
+    <Compile Remove="Migrations\20180914083723_VaspitnaGrupaUcenika.cs" />
+    <Compile Remove="Migrations\20180914085332_KaznaUcenika.cs" />
+    <Compile Remove="Migrations\20180917091956_VaspitacVaspitneGrupe.cs" />
+    <Compile Remove="Migrations\20181001090338_BioUDomuUcenik.cs" />
+    <Compile Remove="Migrations\20190315132136_test.cs" />
+    <Compile Remove="Migrations\20190315132859_DodavanjePrimljenUcenik.cs" />
+    <Compile Remove="Migrations\20190315133114_InitialTim1.cs" />
+    <Compile Remove="Migrations\20190315133550_DodatPrimljen_u_Model.cs" />
+    <Compile Remove="Migrations\20190315134049_DodatPrimljen_u_Model.cs" />
+    <Compile Remove="Migrations\20190321125005_Sobe.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="6.2.2" />
+    <PackageReference Include="Dependency" Version="2.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.3" />
+    <PackageReference Include="Moq" Version="4.8.2" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DomUcenikaSvilajnac.Common.Models\DomUcenikaSvilajnac.Common.Models.csproj" />
+  </ItemGroup>
+
+</Project>
