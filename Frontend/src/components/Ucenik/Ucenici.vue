@@ -76,7 +76,7 @@
      </tr>
       </template>
        <template slot="no-data">
-      <v-alert :value="true" color="error" icon="warning">
+      <v-alert :value="true" color="info" icon="warning">
         Nema nijednog ucenika ili se nisu jos ucitali.
       </v-alert> 
     </template>
@@ -162,6 +162,9 @@
                 >
                 Potvrdi
                 </v-btn>
+                <p>{{ brojBodova }}</p>
+                <p>{{ brojMuskihKandidata }}</p>
+                <p>{{ brojZenskihKandidata }}</p>
                             </v-flex>
                           </v-layout>
                         </v-container>
@@ -522,16 +525,16 @@ import axios from 'axios'
     // },
       primiUdom() {
         const parametriZaPrijavu = {
-          brojMuskih: 2,
-          brojZenskih: 3,
-          bodovi: 30
+          brojMuskih: this.brojMuskihKandidata,
+          brojZenskih: this.brojZenskihKandidata,
+          bodovi: this.brojBodova
         };
 
        
         axios.post('http://localhost:62768/api/Primljeni/', parametriZaPrijavu)
         .then(function (response) {
           console.log(response.data);
-          //console.log(parametriZaPrijavu);
+          console.log(parametriZaPrijavu);
         })
         .catch(function (error) {
           console.log(error);

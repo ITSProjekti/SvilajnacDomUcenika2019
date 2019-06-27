@@ -82,6 +82,7 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
 
 
 
+
            /* foreach (var ucenik in podaciUcenika)
                 if (ucenik.StatusPrijaveId == 1)
                     ucenik.BodoviZaUpis = formulaZaRangiranje(ucenik.Id);
@@ -96,7 +97,8 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
             
 
 
-            return Mapper.Map<List<Ucenik>, List<UcenikResource>>(podaciUcenika);
+            return Mapper.Map<List<Ucenik>, List<UcenikResource>>(podaciUcenika.Where(m => m.StatusPrijaveId == 1).ToList() );
+
         }
 
         public async Task<UcenikResource> podaciUcenikaById(int id)

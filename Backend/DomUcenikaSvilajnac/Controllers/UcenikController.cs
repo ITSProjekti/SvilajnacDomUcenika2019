@@ -49,7 +49,7 @@ namespace DomUcenikaSvilajnac.Controllers
         public async Task<IEnumerable<UcenikResource>> GetUcenika()
         {
             var pom = await UnitOfWork.Ucenici.podaciUcenika();
-            await UnitOfWork.SaveChangesAsync();
+        //    await UnitOfWork.SaveChangesAsync();
             return pom;
         }
 
