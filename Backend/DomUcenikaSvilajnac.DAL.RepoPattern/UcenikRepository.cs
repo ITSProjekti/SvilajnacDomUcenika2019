@@ -82,7 +82,7 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
 
 
 
-            foreach (var ucenik in podaciUcenika)
+           /* foreach (var ucenik in podaciUcenika)
                 if (ucenik.StatusPrijaveId == 1)
                     ucenik.BodoviZaUpis = formulaZaRangiranje(ucenik.Id);
             else if (ucenik.StatusPrijaveId == 3)
@@ -92,7 +92,7 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
 
             podaciUcenika.OrderByDescending(m => m.BodoviZaUpis);
 
-            _context.UpdateRange(podaciUcenika);
+            _context.UpdateRange(podaciUcenika);*/
             
 
 
