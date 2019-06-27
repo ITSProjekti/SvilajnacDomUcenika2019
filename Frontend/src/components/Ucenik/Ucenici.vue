@@ -30,6 +30,78 @@
       
         </v-flex>
       
+        <!-- pocetak popupa -->
+        <template>
+        <v-dialog max-width="600px">
+          <v-btn flat slot="activator" class="success">
+            <img class ="mr-3 " :src=rangiraj.srcmain>
+            Rangiraj? 
+          </v-btn>
+          <v-card>
+            <v-card-title>
+              <h2>Parametri za rangiranje</h2>
+            </v-card-title>
+            <v-flex offset-sm2  xs12 sm8 class="mt-4 ">
+            <v-text-field
+                        type="number"
+                        color="navbarcolor"
+                        v-model="brojMuskihKandidata"
+                        label="Broj muskih kandidata" 
+                        required                 
+                        clearable>
+            </v-text-field>
+            </v-flex>
+
+            <v-flex offset-sm2  xs12 sm8 class="mt-4 ">
+            <v-text-field
+                        type="number"
+                        color="navbarcolor"
+                        v-model="brojZenskihKandidata"
+                        label="Broj zenskih kandidata" 
+                        required                 
+                        clearable>
+            </v-text-field>
+            </v-flex>
+
+            <v-flex offset-sm2  xs12 sm8 class="mt-4 ">
+            <v-text-field
+                        type="number"
+                        color="navbarcolor"
+                        v-model="brojBodova"
+                        label="Broj bodova" 
+                        required                 
+                        clearable>
+            </v-text-field>
+            </v-flex>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn class="success" flat @click="primiUdom">
+                <img class ="mr-3 " :src=rangiraj.srcmain>
+                Rangirajte</v-btn>
+              <v-btn color="green darken-1" flat @click="dialog = false">Odustanite</v-btn> 
+              <!-- <v-spacer></v-spacer> -->
+            </v-card-actions>
+
+            <!-- <v-flex offset-sm2  xs12 sm8 class="mt-4">
+              <v-btn 
+                v-on:click="primiUdom"
+                >
+                Rangirajte
+              </v-btn>
+            </v-flex> -->
+
+            <!-- <p>{{ brojBodova }}</p>
+            <p>{{ brojMuskihKandidata }}</p>
+            <p>{{ brojZenskihKandidata }}</p> -->
+            
+              
+
+          </v-card>
+        </v-dialog>
+        </template>
+        <!-- kraj popupa -->
+
         <v-btn dark class="navbarcolor mt-2 mr-4"  @click.native="reloadPage">
           <img class ="mr-3 " :src=rangiraj.srcmain>   Rangiraj
         </v-btn>  
@@ -76,7 +148,7 @@
      </tr>
       </template>
        <template slot="no-data">
-      <v-alert :value="true" color="info" icon="warning">
+      <v-alert :value="true" color="info" icon="info">
         Nema nijednog ucenika ili se nisu jos ucitali.
       </v-alert> 
     </template>
@@ -103,8 +175,7 @@
               Prikaz zenskih kandidata
 
         </v-btn>
-          <template>
-            <!-- <v-form @submit.prevent = PrijavljenUcenik> -->
+          <!-- <template>
                  <v-container fluid>
                     <v-layout row wrap>
                     <v-flex offset-sm1  xs12 sm5 class="mt-4 ">
@@ -121,8 +192,8 @@
                            <v-flex xs12 sm3 offset-sm1 class="mt-4">
                               
                             </v-flex>
-                          </v-layout>
-                        </v-container>
+                      </v-layout>
+                    </v-container>
                       
                  <v-container fluid>
                     <v-layout row wrap>
@@ -168,8 +239,7 @@
                             </v-flex>
                           </v-layout>
                         </v-container>
-                        <!-- </v-form> -->
-                      </template>
+                      </template> -->
   </div>
 </template>
 
@@ -198,6 +268,7 @@ import axios from 'axios'
         'Prezime',
         'Škola'
       ],
+      dialog: false,
       kanta: { srcmain: require('../../assets/KANTA2.png')},
       izmena: { srcmain: require('../../assets/EDIT.png')} ,
        rangiraj: { srcmain: require('../../assets/RangirajIkona.png')} ,
