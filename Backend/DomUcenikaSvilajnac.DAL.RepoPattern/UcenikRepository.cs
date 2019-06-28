@@ -97,7 +97,7 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
             
 
 
-            return Mapper.Map<List<Ucenik>, List<UcenikResource>>(podaciUcenika.Where(m => m.StatusPrijaveId == 1).ToList() );
+            return Mapper.Map<List<Ucenik>, List<UcenikResource>>(podaciUcenika );
 
         }
 
@@ -124,6 +124,32 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
                 .Include(sp => sp.StatusPrijave)
                 .SingleOrDefaultAsync(x => x.Id == id);
             return Mapper.Map<Ucenik, UcenikResource>(podaciUcenikaById);
+        }
+
+        public async Task<IEnumerable<UcenikResource>> podaciUcenikaByStatusPrijave(int prijavaId)
+        {
+            var podaciUcenika = await _context.Uceniks
+               .Include(o => o.Opstina)
+               .Include(d => d.DrzavaRodjenja)
+               .Include(op => op.OpstinaPrebivalista)
+               .Include(p => p.Pol)
+               .Include(t => t.Telefon)
+               .Include(pb => pb.PostanskiBroj)
+               .Include(os => os.PrethodnaSkola)
+               .Include(ss => ss.UpisanaSkola.Opstina)
+               .Include(mr => mr.MestoRodjenja)
+               .Include(mr => mr.MestoPrebivalista)
+               .Include(mzs => mzs.MestoZavrseneSkole)
+               .Include(s => s.Smer)
+               .Include(r => r.Razred)
+               .Include(rod => rod.Roditelji)
+               .Include(tipP => tipP.TipPorodice)
+               .Include(st => st.Staratelji)
+               .Include(vg => vg.VaspitnaGrupa)
+               .Include(sp => sp.StatusPrijave)
+               .ToListAsync();
+
+                return Mapper.Map<List<Ucenik>, List<UcenikResource>>(podaciUcenika.Where(m=>m.StatusPrijaveId == prijavaId).ToList() );
         }
 
         public async Task<PostUcenikaResource> mapiranjeZaPostUcenika(PostUcenikaResource ucenik)
