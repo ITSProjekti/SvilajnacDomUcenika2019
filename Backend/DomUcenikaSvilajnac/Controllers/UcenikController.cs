@@ -325,7 +325,8 @@ namespace DomUcenikaSvilajnac.Controllers
                 PaperSize = PaperKind.A4,
                 Margins = new MarginSettings { Top = 10, Left = 10, Right = 10 },
                 DocumentTitle = "RangLista",
-                Out = @"C:\Users\Tim4\Desktop\Rangirani_Ucenici.pdf"
+                Out = @"C:\Users\Tim 4\Desktop\Rangirani_Ucenici.pdf"
+
             };
 
             var objectSettings = new ObjectSettings

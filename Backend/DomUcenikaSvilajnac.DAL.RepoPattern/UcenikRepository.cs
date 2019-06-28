@@ -292,7 +292,7 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
         {
             try
             {
-                var rangirani = context.Uceniks.Where(m => m.StatusPrijaveId == 1).ToList();
+                var rangirani = _context.Uceniks.Where(m => m.StatusPrijaveId == 3).ToList();
 
                 var sb = new StringBuilder();
 
