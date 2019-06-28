@@ -89,9 +89,39 @@ namespace DomUcenikaSvilajnac.Controllers
         public async Task<IActionResult> GetUcenikByStatus ( int StatusPrijaveID)
         {
 
+            if(!ModelState.IsValid)
+            {
+                BadRequest();
+            }
+
             var uceniciPoStatusuPrijave = await UnitOfWork.Ucenici.podaciUcenikaByStatusPrijave(StatusPrijaveID);
 
+            if(uceniciPoStatusuPrijave == null)
+            {
+                return NotFound();
+            }
+
             return Ok(uceniciPoStatusuPrijave);
+        }
+
+        [HttpGet("{VaspitnaGrupaID}")]
+        [Route("vaspitnaGrupa")]
+        public async Task<IActionResult> GetUcenikByVaspitnaGrupa(int VaspitnaGrupaID)
+        {
+
+            if(!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var uceniciPoVaspitnojGrupi= await UnitOfWork.Ucenici.podaciUcenikaByVaspitnaGrupa(VaspitnaGrupaID);
+
+            if(uceniciPoVaspitnojGrupi == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(uceniciPoVaspitnojGrupi);
         }
 
         /// <summary>
