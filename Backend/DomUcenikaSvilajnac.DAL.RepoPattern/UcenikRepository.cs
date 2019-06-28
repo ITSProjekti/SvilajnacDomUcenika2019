@@ -152,6 +152,9 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
                 return Mapper.Map<List<Ucenik>, List<UcenikResource>>(podaciUcenika.Where(m=>m.StatusPrijave.Id == prijavaId).ToList() );
         }
 
+
+       
+
         public async Task<PostUcenikaResource> mapiranjeZaPostUcenika(PostUcenikaResource ucenik)
         {
             var podaciUcenika = await _context.Uceniks
@@ -239,22 +242,7 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
             return Convert.ToSingle(Math.Round(rezultat,2));
         }
 
-        //public List<Ucenik> vratiSvePrimljene()
-        //{
-        //    List<Ucenik> lista = new List<Ucenik>();
-        //    var ucenici = _context.Uceniks.ToArray();
 
-        //    foreach(Ucenik item in ucenici)
-        //    {
-        //        item.BodoviZaUpis = formulaZaRangiranje(item.Id);
-        //        if (item.StatusPrijaveId == 3)
-        //        {
-        //            lista.Add(item);
-        //        }
-        //    }
-        //    return lista;
-        //}
-        
 
         public IEnumerable<UcenikResource> vratiPrimljeneUcenike(int brojMuskih, int brojZenskih, int bodovi)
         {
@@ -296,6 +284,58 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
         public IEnumerable<UcenikResource> vratiPrimljene()
         {
             return Mapper.Map<List<Ucenik>, List<UcenikResource>>(_context.Uceniks.Where(m => m.StatusPrijaveId == 3).ToList());
+            
         }
+
+
+        public  string htmlListaRangiranih()
+        {
+            try
+            {
+                var rangirani = context.Uceniks.Where(m => m.StatusPrijaveId == 1).ToList();
+
+                var sb = new StringBuilder();
+
+                sb.Append(@"<html> <head> </head>
+               <body>      
+                    <h1> gerisani pdf </h1>
+                    <table align='center'>
+                       <tr> 
+                        <th> Ime</th>
+                        <th> Prezime</th>
+
+                        </tr>
+
+                    ");
+
+
+                foreach (Ucenik u in rangirani)
+                {
+                    sb.AppendFormat(@"<tr>
+                    <td>{0}</td>
+                    <td>{1}</td>
+
+                </tr>
+                    
+
+
+                        ", u.Ime, u.Prezime);
+                }
+
+                sb.Append(@"</table>
+                    </body>
+                    </html>");
+
+                return sb.ToString();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+               
+        }
+
+        
     } 
 }

@@ -17,6 +17,8 @@ using Syncfusion.Pdf;
 using Syncfusion.Pdf.Graphics;
 using System.IO;
 using Syncfusion.Drawing;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 
 namespace DomUcenikaSvilajnac.Controllers
 {
@@ -32,11 +34,14 @@ namespace DomUcenikaSvilajnac.Controllers
 
         public UcenikContext context;
 
+        public IConverter _converter;
+
         /// <summary>
         /// Inicijalizacija instance klase UcenikController i deklarisanje mappera i unitofwork-a.
         /// </summary>
-        public UcenikController(IMapper mapper, IUnitOfWork unitOfWork)
+        public UcenikController(IMapper mapper, IUnitOfWork unitOfWork,IConverter converter)
         {
+            _converter = converter;
             _mapper = mapper;
             UnitOfWork = unitOfWork;
         }
@@ -306,6 +311,43 @@ namespace DomUcenikaSvilajnac.Controllers
             await UnitOfWork.VaspitneGrupe.updateBrojaUcenikaUVaspitnojGrupi();
 
             return Ok(mapiranUcenik);
+
+        }
+
+        [HttpGet]
+        [Route("pdf")]
+        public IActionResult GetPdf()
+        {
+            var globalSettings = new GlobalSettings
+            {
+                ColorMode = ColorMode.Color,
+                Orientation = Orientation.Portrait,
+                PaperSize = PaperKind.A4,
+                Margins = new MarginSettings { Top = 10, Left = 10, Right = 10 },
+                DocumentTitle = "RangLista",
+                Out = @"C:\Users\Tim4\Desktop\Rangirani_Ucenici.pdf"
+            };
+
+            var objectSettings = new ObjectSettings
+            {
+                PagesCount = true,
+                HtmlContent = UnitOfWork.Ucenici.htmlListaRangiranih(),
+                WebSettings = { DefaultEncoding = "utf-8" },
+                HeaderSettings = { FontName = "Arial", FontSize = 9 },
+                FooterSettings = { FontName = "Arial", FontSize = 9 }
+            };
+
+
+            var pdf = new HtmlToPdfDocument()
+            {
+                GlobalSettings = globalSettings,
+                Objects = {objectSettings}
+            };
+
+            _converter.Convert(pdf);
+
+            return Ok("Uspesno kreirano");
+
 
         }
 
