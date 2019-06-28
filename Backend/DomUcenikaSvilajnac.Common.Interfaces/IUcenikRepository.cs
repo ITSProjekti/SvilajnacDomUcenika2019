@@ -18,6 +18,7 @@ namespace DomUcenikaSvilajnac.Common.Interfaces
     {
         Task<IEnumerable<UcenikResource>> podaciUcenika();
         Task<UcenikResource> podaciUcenikaById(int id);
+        Task<IEnumerable<UcenikResource>> podaciUcenikaByStatusPrijave(int prijavaId);
         Task<PostUcenikaResource> mapiranjeZaPostUcenika(PostUcenikaResource ucenik);
         Task<UcenikResource> mapiranjeZaDeleteUcenika(UcenikResource ucenik);
         Task<PutUcenikaResource> mapiranjeZaPutUcenika(int id);

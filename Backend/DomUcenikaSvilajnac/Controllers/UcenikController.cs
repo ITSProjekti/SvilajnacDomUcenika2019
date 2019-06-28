@@ -79,6 +79,16 @@ namespace DomUcenikaSvilajnac.Controllers
         }
 
 
+        [HttpGet("{StatusPrijaveID}")]
+        [Route("status")]
+        public async Task<IActionResult> GetUcenikByStatus ( int StatusPrijaveID)
+        {
+
+            var uceniciPoStatusuPrijave = await UnitOfWork.Ucenici.podaciUcenikaByStatusPrijave(StatusPrijaveID);
+
+            return Ok(uceniciPoStatusuPrijave);
+        }
+
         /// <summary>
         /// Metoda za update, menja podatke u nekom redu u tabeli, tj. o nekom uceniku na osnovu prosledjenog Id-a 
         /// i vraca podatke o uceniku koji su namenjeni za front.

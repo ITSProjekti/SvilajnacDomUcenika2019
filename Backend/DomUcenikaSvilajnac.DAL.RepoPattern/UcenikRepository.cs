@@ -149,7 +149,7 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
                .Include(sp => sp.StatusPrijave)
                .ToListAsync();
 
-                return Mapper.Map<List<Ucenik>, List<UcenikResource>>(podaciUcenika.Where(m=>m.StatusPrijaveId == prijavaId).ToList() );
+                return Mapper.Map<List<Ucenik>, List<UcenikResource>>(podaciUcenika.Where(m=>m.StatusPrijave.Id == prijavaId).ToList() );
         }
 
         public async Task<PostUcenikaResource> mapiranjeZaPostUcenika(PostUcenikaResource ucenik)
