@@ -39,6 +39,7 @@ namespace DomUcenikaSvilajnac
             services.AddAutoMapper();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddDbContext<UcenikContext>(options => options.UseSqlServer(@"Data Source=DESKTOP-TQ3HLQF;Initial Catalog=DomUcenikaSvilajnac31;Integrated Security=True;Connect Timeout=30"));
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
             services.AddMvc();
         }
 
