@@ -15,6 +15,9 @@ using DomUcenikaSvilajnac.Common.Interfaces;
 using DomUcenikaSvilajnac.DAL.RepoPattern;
 using DinkToPdf.Contracts;
 using DinkToPdf;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
+using System.Reflection;
 
 namespace DomUcenikaSvilajnac
 {
@@ -30,22 +33,28 @@ namespace DomUcenikaSvilajnac
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var physicalProvider = new PhysicalFileProvider(Directory.GetCurrentDirectory());
+            var manifestEmbeddedProvider = new EmbeddedFileProvider(Assembly.GetEntryAssembly());
+
+            var compositeProvider = new CompositeFileProvider(physicalProvider, manifestEmbeddedProvider);
             //Linija za zaobilazenje Cross origin http request zastite koju imaju browseri
             services.AddCors();
-
+      
             //liniju koju smo dodali kako bismo ispisali listu postanskih brojeva u opstini kontroleru
             services.AddMvc().AddJsonOptions(options => { options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore; });
 
             services.AddAutoMapper();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddDbContext<UcenikContext>(options => options.UseSqlServer(@"Data Source=(localdb)\MSSQLLocaldb;Initial Catalog=DomUcenikaSvilajnac31;Integrated Security=True;Connect Timeout=30"));
+            services.AddDbContext<UcenikContext>(options => options.UseSqlServer(@"Data Source=PC-TIM4\SQLEXPRESS;Initial Catalog=DomUcenikaSvilajnac31;Integrated Security=True;Connect Timeout=30"));
             services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+            services.AddSingleton(compositeProvider);
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

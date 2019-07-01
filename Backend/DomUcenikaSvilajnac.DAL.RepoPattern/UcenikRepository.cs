@@ -310,7 +310,7 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
 
         public IEnumerable<UcenikResource> vratiPrimljene()
         {
-            return Mapper.Map<List<Ucenik>, List<UcenikResource>>(_context.Uceniks.Where(m => m.StatusPrijaveId == 3).ToList());
+            return Mapper.Map<List<Ucenik>, List<UcenikResource>>(_context.Uceniks.Where(m => m.StatusPrijaveId == 3) .ToList());
             
         }
 
@@ -319,7 +319,9 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
         {
             try
             {
-                var rangirani = _context.Uceniks.Where(m => m.StatusPrijaveId == 3).ToList();
+                var rangirani = _context.Uceniks.Where(m => m.StatusPrijaveId == 3)
+                .Include(p => p.Pol)
+                .Include(p => p.Razred).ToList();
 
                 var sb = new StringBuilder();
 
@@ -327,26 +329,40 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
                <body>      
                     <h1> gerisani pdf </h1>
                     <table align='center'>
-                       <tr> 
+                       <tr align='center'>
+                        <th>Redni broj</th>
                         <th> Ime</th>
                         <th> Prezime</th>
+                        <th> Broj poena </th>
+                        <th> Pol  </th>
+                        <th> Razred  </th>
+
+                        
 
                         </tr>
 
                     ");
 
-
+                int i = 1;
                 foreach (Ucenik u in rangirani)
                 {
-                    sb.AppendFormat(@"<tr>
+                    sb.AppendFormat(@"<tr align='center'>
                     <td>{0}</td>
                     <td>{1}</td>
+                    <td>{2}</td>
+                    <td>{3}</td>
+                    <td>{4}</td>
+                    <td>{5}</td>
+
+
 
                 </tr>
                     
 
 
-                        ", u.Ime, u.Prezime);
+                        ",i + ".", u.Ime, u.Prezime,u.BodoviZaUpis,u.Pol.NazivPola,u.Razred.BrojRazreda);
+
+                    i++;
                 }
 
                 sb.Append(@"</table>

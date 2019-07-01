@@ -353,7 +353,7 @@ namespace DomUcenikaSvilajnac.Controllers
                 ColorMode = ColorMode.Color,
                 Orientation = Orientation.Portrait,
                 PaperSize = PaperKind.A4,
-                Margins = new MarginSettings { Top = 10, Left = 10, Right = 10 },
+                Margins = new MarginSettings { Top = 10 },
                 DocumentTitle = "RangLista",
                 Out = @"C:\Users\Tim 4\Desktop\Rangirani_Ucenici.pdf"
 
@@ -377,7 +377,7 @@ namespace DomUcenikaSvilajnac.Controllers
 
             _converter.Convert(pdf);
 
-            return Ok("Uspesno kreirano");
+            return Ok(globalSettings.Out.ToString());
 
 
         }
