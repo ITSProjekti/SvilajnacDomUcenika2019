@@ -280,14 +280,14 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
                 item.BodoviZaUpis = formulaZaRangiranje(item.Id);
                 if ((item.BodoviZaUpis >= bodovi) && (brojMuskih > 0 || brojZenskih > 0))
                 {
-                    if(item.PolId == 1) //Pol muski
+                    if(item.PolId == 1 && brojMuskih > 0) //Pol muski
                     {
                         item.StatusPrijaveId = 3; //primljen
                         primljeni.Add(item);
                         
                         brojMuskih--;
                     }
-                    else if(item.PolId == 2) // Pol zenski
+                    else if(item.PolId == 2 && brojZenskih >0) // Pol zenski
                     {
                         item.StatusPrijaveId = 3; //primljen
                         primljeni.Add(item);
