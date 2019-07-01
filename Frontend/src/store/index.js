@@ -694,8 +694,7 @@ export const store = new Vuex.Store({
             axios.get('http://localhost:62768/api/ucenik').then((response) => {
             
               commit('setLoadedUcenike', response.data)
-              commit('setLoading', false)
-              
+              commit('setLoading', false)      
             }).catch(
                 (error) => {
                   console.log(error)

@@ -2,70 +2,6 @@
 <template>
   <div id="maindiv">
    <v-card>
-     <template>
-            <v-form @submit.prevent = PrijavljenUcenik>
-                 <v-container fluid>
-                    <v-layout row wrap>
-                    <v-flex offset-sm1  xs12 sm5 class="mt-4 ">
-                        <v-text-field
-                        type="number"
-                        color="navbarcolor"
-                        v-model="brojMuskihKandidata"
-                        label="Broj muskih kandidata" 
-                        required                 
-                        clearable
-                        
-                        ></v-text-field>
-                          </v-flex>
-                           <v-flex xs12 sm3 offset-sm1 class="mt-4">
-                              
-                            </v-flex>
-                          </v-layout>
-                        </v-container>
-                      
-                 <v-container fluid>
-                    <v-layout row wrap>
-                    <v-flex offset-sm1  xs12 sm5 class="mt-4 ">
-                        <v-text-field
-                        type="number"
-                        color="navbarcolor"
-                        v-model="brojZenskihKandidata"
-                        label="Broj zenskih kandidata" 
-                        required                 
-                        clearable
-                        
-                        ></v-text-field>
-                          </v-flex>
-                           <v-flex xs12 sm3 offset-sm1 class="mt-4">
-                             
-                            
-                            </v-flex>
-                          </v-layout>
-                        </v-container>
-                         <v-container fluid>
-                    <v-layout row wrap>
-                    <v-flex offset-sm1  xs12 sm5 class="mt-4 ">
-                        <v-text-field
-                        type="number"
-                        color="navbarcolor"
-                        v-model="brojBodova"
-                        label="Broj bodova" 
-                        required                 
-                        clearable
-                        
-                        ></v-text-field>
-                          </v-flex>
-                           <v-flex xs12 sm3 offset-sm1 class="mt-4">
-                              <v-btn 
-                type="submit"
-                >
-                Potvrdi
-                </v-btn>
-                            </v-flex>
-                          </v-layout>
-                        </v-container>
-                        </v-form>
-                      </template>
     <v-layout wrap > 
         <v-flex xs12  class="text-xs-center">
         <v-progress-circular
@@ -92,12 +28,8 @@
       ></v-text-field>     
       
         </v-flex>
-      
-        <v-btn dark class="navbarcolor mt-2 mr-4"  @click.native="reloadPage">
-          <img class ="mr-3 " :src=rangiraj.srcmain>   Sortiraj
-        </v-btn>  
-        <v-btn dark class="navbarcolor mt-2 mr-4"  @click.native="reloadPage">
-             PDF
+        <v-btn dark class="navbarcolor mt-2 mr-4"  @click.native="openPDF">
+             Štampanje
         </v-btn> 
       </v-layout>
    <transition name="fade" appear  mode="in-out">
@@ -166,6 +98,7 @@
               Prikaz zenskih kandidata
 
         </v-btn>
+        <!-- <a href="C:\Users\Tim 4\Desktop\Rangirani_Ucenici.pdf" target="_blank">PDF</a> -->
          
   </div>
   
@@ -500,6 +433,22 @@ import moment from 'moment'
       }
     },
     methods: {
+      otvoriPDF() {
+        var self = this;
+        axios.get('http://localhost:62768/api/ucenik/pdf/')
+        .then(function (response) {
+          console.log(response.data);
+          self.dialogRangiranje = false;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      },
+      openPDF () {   
+
+          window.open("file:///C:/Users/Tim%204/Desktop/Rangirani_Ucenici.pdf", "_blank");    
+
+      },
        PrijavljenUcenik(){
        this.form.post('http://localhost:62768/api/Primljeni/1/1/30')
        /*  brojMuskihKandidata: this.brojMuskihKandidata,
