@@ -65,6 +65,20 @@ namespace DomUcenikaSvilajnac
                  .AllowAnyMethod()
                  .AllowAnyHeader()
                  .AllowCredentials());
+
+            app.UseStaticFiles();
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                Path.Combine(Directory.GetCurrentDirectory(),"wwwroot")),
+                RequestPath = "/Files"
+            });
+            app.UseDirectoryBrowser(new DirectoryBrowserOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(),"wwwroot") ),
+                RequestPath = "/Files"
+            });
             app.UseMvc();
             
             
