@@ -167,10 +167,8 @@
         
         <v-btn  dark class="navbarcolor mt-2 mr-4"  @click="(polMuski='Ženski'),(polZenski='Ženski')">
               Prikaz ženskih kandidata
-
         </v-btn>
-        
-         <a href="http://index-of.es/CSS/CSS%20-%20O'Reilly%20-%20Cascading%20Style%20Sheets%20The%20Definitive%20Guide.pdf" target="_blank">pdf pls</a> 
+         
           <!-- <template>
                  <v-container fluid>
                     <v-layout row wrap>

@@ -8,7 +8,7 @@
           indeterminate
           class="primary--text"
           :width="7"
-          :size="150"
+          :size="50"
           v-if="loading"></v-progress-circular>
       </v-flex>
     </v-layout>
@@ -69,7 +69,7 @@
        v-if="!loading"
       rows-per-page-text="Redova po stranici"
       
-      :rows-per-page-items="[10,15,20,ucenici.length]"
+      :rows-per-page-items="[20,15,10,ucenici.length]"
       :search="search"
       :custom-filter="customFilter"
       class="elevation-1"   
@@ -99,7 +99,7 @@
      </tr>
       </template>
        <template slot="no-data">
-      <v-alert :value="true" color="error" icon="warning">
+      <v-alert :value="true" color="info" icon="info">
         Nema nijednog ucenika ili se nisu jos ucitali.
       </v-alert> 
     </template>
@@ -115,7 +115,7 @@
     </v-card>
 </v-card>
 <v-btn dark class="navbarcolor "  @click="(polMuski='Muški'),(polZenski='Muški')">
-             Prikaz muskih kandidata
+             Prikaz muških kandidata
         </v-btn>
          
         <v-btn dark class="navbarcolor mt-2 mr-4"  @click="(polMuski='Muški'),(polZenski='Ženski')">
@@ -123,7 +123,7 @@
         </v-btn>
         
         <v-btn  dark class="navbarcolor mt-2 mr-4"  @click="(polMuski='Ženski'),(polZenski='Ženski')">
-              Prikaz zenskih kandidata
+              Prikaz ženskih kandidata
 
         </v-btn>
         <!-- <a href="C:\Users\Tim 4\Desktop\Rangirani_Ucenici.pdf" target="_blank">PDF</a> -->
@@ -478,8 +478,8 @@ import axios from 'axios'
         }
         axios.get('http://localhost:62768/api/ucenik/pdf'+ urlParams)
         .then(function (response) {
-          console.log(urlParams);
           self.dialogPDF = false;
+          window.open("http://localhost:62768/" + response.data)
         })
         .catch(function (error) {
           console.log(error);

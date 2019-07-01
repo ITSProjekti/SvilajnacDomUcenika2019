@@ -286,7 +286,7 @@
                                 :loading="loading"
                                 :items="mesta"
                                 v-model="editedItem.mestoPrebivalista.id"
-                                label="Izaberite mesto rođenja"
+                                label="Izaberite mesto prebivališta"
                                 item-text="nazivMesta"
                                 item-value="id"
                                 autocomplete
