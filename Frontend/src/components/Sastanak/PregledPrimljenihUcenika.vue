@@ -26,11 +26,39 @@
         single-line
         hide-details
       ></v-text-field>     
-      
         </v-flex>
-        <v-btn dark class="navbarcolor mt-2 mr-4"  @click.native="openPDF">
-             Štampanje
-        </v-btn> 
+
+        
+<!-- pocetak popupa -->
+<v-dialog v-model="dialogPDF" max-width="400px">
+          <v-btn dark slot="activator" class="navbarcolor">
+            Štampanje
+          </v-btn>
+          <v-card>
+            <v-card-title>
+              <h2>Parametri za štampu</h2>
+            </v-card-title>
+            <v-flex offset-sm2  xs12 sm8 class="mt-4 ">
+              <v-container fluid>
+                <v-switch v-model="PDFpol" color="success" label="muški učenici" value="m"></v-switch>
+                <v-switch v-model="PDFpol" color="success" label="ženski učenici" value="z"></v-switch>
+              </v-container>
+            </v-flex>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn class="success" flat @click="otvoriPDF">
+                Štampajte
+              </v-btn>
+              <v-btn color="green darken-1" flat @click="dialogPDF = false">Odustanite</v-btn> 
+            </v-card-actions>
+
+          </v-card>
+        </v-dialog>
+<!-- kraj popupa -->
+
+
+
       </v-layout>
    <transition name="fade" appear  mode="in-out">
         <v-flex xs12>
@@ -107,6 +135,7 @@
 <script>
 /* eslint-disable */
 import moment from 'moment'
+import axios from 'axios'
 
   export default {
     data: () => ({
@@ -121,6 +150,8 @@ import moment from 'moment'
       pomocnaZaPol: 0,
       // dialog je promenljiva koja sluzi za prikazivanje dijaloga pri menjanju ili prijavi ucenika
       dialog: false,
+      dialogPDF: false,
+      PDFpol: ['m','z'],
       select: '',
       opcijeX: [
         'Ime',
@@ -435,19 +466,43 @@ import moment from 'moment'
     methods: {
       otvoriPDF() {
         var self = this;
-        axios.get('http://localhost:62768/api/ucenik/pdf/')
+        var urlParams = "";
+         if (self.PDFpol.includes("m","z")){
+          urlParams = "?muski=m&?zenski=z"
+        } else if(self.PDFpol.includes("m")){
+          urlParams = "?muski=m"
+        } else if(self.PDFpol.includes("z")){
+          urlParams = "?zenski=z"
+        } else {
+          urlParams = "?muski=m&?zenski=z"
+        }
+        axios.get('http://localhost:62768/api/ucenik/pdf'+ urlParams)
         .then(function (response) {
-          console.log(response.data);
-          self.dialogRangiranje = false;
+          console.log(urlParams);
+          self.dialogPDF = false;
         })
         .catch(function (error) {
           console.log(error);
         });
       },
-      openPDF () {   
+      openPDF() {
+        const parametriZaPrijavu = {
+          brojMuskih: this.brojMuskihKandidata,
+          brojZenskih: this.brojZenskihKandidata,
+          bodovi: this.brojBodova
+        };
 
-          window.open("file:///C:/Users/Tim%204/Desktop/Rangirani_Ucenici.pdf", "_blank");    
-
+       var self = this;
+        axios.post('http://localhost:62768/api/Primljeni/', parametriZaPrijavu)
+        .then(function (response) {
+          console.log(response.data);
+          console.log(parametriZaPrijavu);
+          self.reloadPage();
+          self.dialogPDF = false;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
       },
        PrijavljenUcenik(){
        this.form.post('http://localhost:62768/api/Primljeni/1/1/30')
@@ -638,6 +693,7 @@ import moment from 'moment'
 
   }
 </script>
+
 
 <style >
 .slidetoleft-enter{
