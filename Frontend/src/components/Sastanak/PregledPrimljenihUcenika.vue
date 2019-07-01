@@ -467,15 +467,16 @@ import axios from 'axios'
       otvoriPDF() {
         var self = this;
         var urlParams = "";
-         if (self.PDFpol.includes("m","z")){
-          urlParams = "?muski=m&?zenski=z"
+         if (self.PDFpol.includes("m") && self.PDFpol.includes("z")){
+          urlParams = "?muski=m&zenski=z"
         } else if(self.PDFpol.includes("m")){
           urlParams = "?muski=m"
         } else if(self.PDFpol.includes("z")){
           urlParams = "?zenski=z"
         } else {
-          urlParams = "?muski=m&?zenski=z"
+          urlParams = "?muski=m&zenski=z"
         }
+        console.log(urlParams);
         axios.get('http://localhost:62768/api/ucenik/pdf'+ urlParams)
         .then(function (response) {
           self.dialogPDF = false;
