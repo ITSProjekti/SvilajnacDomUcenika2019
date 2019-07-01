@@ -1576,8 +1576,8 @@ padding: 2px;
 
 #dugme3{
   position: fixed;
-  top: 15%;
-  left: 79%;
+  top: 16%;
+  left: 79.75%;
 }
 .razmak{
   padding-top:3%;

@@ -9,14 +9,14 @@
           indeterminate
           class="primary--text"
           :width="7"
-          :size="150"
+          :size="50"
           v-if="loading"></v-progress-circular>
       </v-flex>
     </v-layout>
     <v-card>
           <transition name="slidetoleft" appear>
        <v-card-title wrap >
-        <h3>Pregled svih prijavljenih učenika</h3> </v-card-title>
+        <h3>Pregled svih učenika u sistemu</h3> </v-card-title>
           </transition>
       <v-layout wrap justify-end >
         <v-flex xs3 class="mb-2 mr-3">
@@ -32,10 +32,10 @@
       
         <!-- pocetak popupa -->
         <template>
-        <v-dialog max-width="600px">
-          <v-btn flat slot="activator" class="success">
-            <img class ="mr-3 " :src=rangiraj.srcmain>
-            Rangiraj? 
+        <v-dialog v-model="dialogRangiranje" max-width="600px">
+          <v-btn dark slot="activator" class="navbarcolor">
+            <img class ="mr-3" :src=rangiraj.srcmain>
+            Rangirajte 
           </v-btn>
           <v-card>
             <v-card-title>
@@ -79,7 +79,7 @@
               <v-btn class="success" flat @click="primiUdom">
                 <img class ="mr-3 " :src=rangiraj.srcmain>
                 Rangirajte</v-btn>
-              <v-btn color="green darken-1" flat @click="dialog = false">Odustanite</v-btn> 
+              <v-btn color="green darken-1" flat @click="dialogRangiranje = false">Odustanite</v-btn> 
               <!-- <v-spacer></v-spacer> -->
             </v-card-actions>
 
@@ -102,12 +102,6 @@
         </template>
         <!-- kraj popupa -->
 
-        <v-btn dark class="navbarcolor mt-2 mr-4"  @click.native="reloadPage">
-          <img class ="mr-3 " :src=rangiraj.srcmain>   Rangiraj
-        </v-btn>  
-        <v-btn dark class="navbarcolor mt-2 mr-4"  @click.native="reloadPage">
-             PDF
-        </v-btn> 
       </v-layout>
    <transition name="fade" appear  mode="in-out">
         <v-flex xs12>
@@ -125,7 +119,7 @@
       
      >
       <template slot="items" slot-scope="props" reloadPage1
-        v-if="((props.item.pol.nazivPola == polKandidata)||(props.item.bodoviZaUpis >= brojBodovaZaPrijem)&&((props.item.pol.nazivPola == polZenski) || (props.item.pol.nazivPola == polMuski)) && props.item.statusPrijave.id !=3 )" 
+        v-if="((props.item.pol.nazivPola == polKandidata)||(props.item.bodoviZaUpis >= brojBodovaZaPrijem)&&((props.item.pol.nazivPola == polZenski) || (props.item.pol.nazivPola == polMuski)))" 
         
       >
         <tr >
@@ -164,7 +158,7 @@
     </v-card>
 </v-card>
 <v-btn dark class="navbarcolor "  @click="(polMuski='Muški'),(polZenski='Muški')">
-             Prikaz muskih kandidata
+             Prikaz muških kandidata
         </v-btn>
          
         <v-btn dark class="navbarcolor mt-2 mr-4"  @click="(polMuski='Muški'),(polZenski='Ženski')">
@@ -172,9 +166,11 @@
         </v-btn>
         
         <v-btn  dark class="navbarcolor mt-2 mr-4"  @click="(polMuski='Ženski'),(polZenski='Ženski')">
-              Prikaz zenskih kandidata
+              Prikaz ženskih kandidata
 
         </v-btn>
+        
+         <a href="http://index-of.es/CSS/CSS%20-%20O'Reilly%20-%20Cascading%20Style%20Sheets%20The%20Definitive%20Guide.pdf" target="_blank">pdf pls</a> 
           <!-- <template>
                  <v-container fluid>
                     <v-layout row wrap>
@@ -262,6 +258,7 @@ import axios from 'axios'
       pomocnaZaPol: 0,
       // dialog je promenljiva koja sluzi za prikazivanje dijaloga pri menjanju ili prijavi ucenika
       dialog: false,
+      dialogRangiranje: false,
       select: '',
       opcijeX: [
         'Ime',
@@ -601,11 +598,13 @@ import axios from 'axios'
           bodovi: this.brojBodova
         };
 
-       
+       var self = this;
         axios.post('http://localhost:62768/api/Primljeni/', parametriZaPrijavu)
         .then(function (response) {
           console.log(response.data);
           console.log(parametriZaPrijavu);
+          self.reloadPage();
+          self.dialogRangiranje = false;
         })
         .catch(function (error) {
           console.log(error);

@@ -77,7 +77,7 @@ align-center
 </v-list-tile>
 
 <v-list-tile
-v-for="(admin, i) in admins"
+v-for="(admin, i) in izvestaji"
 
 :key="i"
 router
@@ -166,7 +166,7 @@ color="grey lighten-4"
 </v-toolbar>
 <v-content>
 <v-container fluid fill-height class="grey lighten-4">
-<v-layout justify-center align-center>
+<v-layout justify-center>
 <v-flex xs12>
 <main>
 <router-view></router-view>
@@ -192,7 +192,7 @@ items: [
 { heading: 'Učenik' ,mainicon: 'person',srcmain: require('./assets/ucenikikonica.png')},
 { icon: 'group', text: 'Pregled učenika u domu', link: '/pregledUcenika'},
 { icon: 'group_add', text: 'Novi učenik - prijava',link: '/prijava' },
-{ icon: 'list_alt', text: 'Pregled svih prijavljenih',link: '/ucenici' },
+{ icon: 'list_alt', text: 'Pregled svih učenika u sistemu',link: '/ucenici' },
 { icon: 'group_work', text: 'Vaspitne grupe',link: '/vaspitnegrupe' },
 { divider: true },
 { heading: 'Vaspitni rad' ,mainicon: 'book',srcmain: require('./assets/vaspitnirad.png') },
@@ -201,6 +201,7 @@ items: [
 { icon: 'ballot', text: 'Evidencija ostvarivanja programa'},
 { divider: true },
 { heading: 'Izveštaji' ,mainicon: 'bar_chart',srcmain: require('./assets/izvestaji.png')},
+{ icon: 'ballot', text: 'Statistika'},
 { divider: true },
 { heading: 'Sobe' ,mainicon: 'book',srcmain: require('./assets/vaspitnirad.png') },
 { icon: 'insert_invitation', text: 'Spisak soba' },
@@ -208,30 +209,32 @@ items: [
 { divider: true },
 ],
 admins: [
-{ icon: 'group', text: 'Pregled učenika u domu' , link: "pregledUcenika"},
+{ icon: 'group', text: 'Pregled učenicka u domu', link: "pregledUcenika"},
 { icon: 'group_add', text: 'Novi učenik - prijava',link: '/prijava' },
-{ icon: 'list_alt', text: 'Pregled svih prijavljenih',link: '/ucenici' },
+{ icon: 'list_alt', text: 'Učenici u sistemu',link: '/ucenici' },
 { icon: 'group_work', text: 'Vaspitne grupe',link: '/vaspitnegrupe' },
 { divider: true },
 ],
 vaspitni: [
-{ icon: 'timer', text: 'Godišnji program rada', link: '/godisnjiprogram'  },
-{ icon: 'timer', text: 'Godišnji', link: '/godisnji'  },
-{ icon: 'insert_invitation', text: 'Mesečni plan rada',link: '/MesecniRad' },
-{ icon: 'timer', text: 'Mesecni', link: '/mesecni'  },
-{ icon: 'ballot', text: 'Evidencija ostvarivanja programa', link: '/evidencija'},
-{ icon: 'timer', text: 'Sastanci', link: '/sastanci' },
-{ icon: 'timer', text: 'Kreiraj sastanak', link: '/kreirajsastanak' },
+{ icon: 'timer', text: 'Godišnji program rada'/*, link: '/godisnjiprogram' */ },
+{ icon: 'timer', text: 'Godišnji'/*, link: '/godisnji'  */},
+{ icon: 'insert_invitation', text: 'Mesečni plan rada',/*link: '/MesecniRad'*/ },
+{ icon: 'timer', text: 'Mesecni',/* link: '/mesecni'  */},
+{ icon: 'ballot', text: 'Evidencija ostvarivanja programa'/*, link: '/evidencija'*/},
+{ icon: 'timer', text: 'Sastanci'/*, link: '/sastanci' },
+{ icon: 'timer', text: 'Kreiraj sastanak'/*, link: '/kreirajsastanak' */},
 { divider: true },
 ],
-
+izvestaji: [
+{ icon: 'ballot', text: 'Statistika'},
+],
 sobe:[
-{ icon: 'timer', text: 'Dodaj sobu', link: '/novasoba' },
-{ icon: 'timer', text: 'Spisak soba', link: '/spisaksoba' },
+{ icon: 'timer', text: 'Dodajte sobu', link: '/novasoba' },
+{ icon: 'timer', text: 'Pregled soba', link: '/spisaksoba' },
 ],
 sekcije:[
-{ icon: 'timer', text: 'Nova sekcija', link: '/novasekcija' },
-{ icon: 'timer', text: 'nesto2', link: '' },
+{ icon: 'timer', text: 'Nova sekcija'/*, link: '/novasekcija' */},
+{ icon: 'timer', text: 'Pregled sekcija'/*, link: '/novasekcija' */},
 ],
 cruds: [
 ['Create', 'add'],
