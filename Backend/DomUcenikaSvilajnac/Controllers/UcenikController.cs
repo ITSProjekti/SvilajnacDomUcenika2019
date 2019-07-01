@@ -19,6 +19,7 @@ using System.IO;
 using Syncfusion.Drawing;
 using DinkToPdf;
 using DinkToPdf.Contracts;
+using Microsoft.AspNetCore.Hosting;
 
 namespace DomUcenikaSvilajnac.Controllers
 {
@@ -36,14 +37,17 @@ namespace DomUcenikaSvilajnac.Controllers
 
         public IConverter _converter;
 
+        public IHostingEnvironment _hostingEnvironment;
+
         /// <summary>
         /// Inicijalizacija instance klase UcenikController i deklarisanje mappera i unitofwork-a.
         /// </summary>
-        public UcenikController(IMapper mapper, IUnitOfWork unitOfWork,IConverter converter)
+        public UcenikController(IMapper mapper, IUnitOfWork unitOfWork,IConverter converter, IHostingEnvironment hostingEnvironment)
         {
             _converter = converter;
             _mapper = mapper;
             UnitOfWork = unitOfWork;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         /// <summary>
@@ -346,8 +350,18 @@ namespace DomUcenikaSvilajnac.Controllers
 
         [HttpGet]
         [Route("pdf")]
-        public IActionResult GetPdf()
+        public IActionResult GetPdf( string muski, string zenski )
         {
+
+            
+            var imeFajla ="";
+            if (muski == "m" && zenski == "z")
+                imeFajla = "Primljeni_Ucenici.pdf";
+            else if (muski == "m")
+                imeFajla = "Primljeni_Muski.pdf";
+            else if (zenski == "z")
+                imeFajla = "Primljeni_Zenski.pdf";
+
             var globalSettings = new GlobalSettings
             {
                 ColorMode = ColorMode.Color,
@@ -355,14 +369,14 @@ namespace DomUcenikaSvilajnac.Controllers
                 PaperSize = PaperKind.A4,
                 Margins = new MarginSettings { Top = 10 },
                 DocumentTitle = "RangLista",
-                Out = @"C:\Users\Tim 4\Desktop\Rangirani_Ucenici.pdf"
+                Out = Path.Combine(_hostingEnvironment.WebRootPath, imeFajla)
 
             };
 
             var objectSettings = new ObjectSettings
             {
                 PagesCount = true,
-                HtmlContent = UnitOfWork.Ucenici.htmlListaRangiranih(),
+                HtmlContent = UnitOfWork.Ucenici.htmlListaRangiranih(muski,zenski),
                 WebSettings = { DefaultEncoding = "utf-8" },
                 HeaderSettings = { FontName = "Arial", FontSize = 9 },
                 FooterSettings = { FontName = "Arial", FontSize = 9 }

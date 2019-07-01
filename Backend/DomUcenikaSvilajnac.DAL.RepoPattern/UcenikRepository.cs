@@ -315,13 +315,41 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
         }
 
 
-        public  string htmlListaRangiranih()
+        public  string htmlListaRangiranih(string muski, string zenski)
         {
             try
             {
-                var rangirani = _context.Uceniks.Where(m => m.StatusPrijaveId == 3)
+                var rangirani = new List<Ucenik>();
+
+
+                if (muski == "m" && zenski == "z")
+                {
+                    rangirani = _context.Uceniks.Where(m => m.StatusPrijaveId == 3)
+                  .Include(p => p.Pol)
+                  .Include(p => p.Razred).ToList();
+                }
+
+
+                if (muski == "m" && zenski !="z")
+                {
+                 rangirani = _context.Uceniks.Where(m => m.StatusPrijaveId == 3 && m.Pol.Id == 1 )
                 .Include(p => p.Pol)
                 .Include(p => p.Razred).ToList();
+
+                }
+
+                if (zenski == "z" && muski!="m")
+                {
+                     rangirani = _context.Uceniks.Where(m => m.StatusPrijaveId == 3 && m.Pol.Id == 2)
+                   .Include(p => p.Pol)
+                   .Include(p => p.Razred).ToList();
+
+                }
+
+              
+               
+
+
 
                 var sb = new StringBuilder();
 

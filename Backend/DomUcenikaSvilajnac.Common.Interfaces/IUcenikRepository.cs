@@ -26,6 +26,6 @@ namespace DomUcenikaSvilajnac.Common.Interfaces
         IEnumerable<UcenikResource> vratiPrimljeneUcenike(int brojMuskih, int brojZenskih, int bodovi);
         IEnumerable<UcenikResource> vratiPrimljene();
         float formulaZaRangiranje(int idUcenika);
-        string htmlListaRangiranih();
+        string htmlListaRangiranih(string muski, string zenski);
     }
 }
