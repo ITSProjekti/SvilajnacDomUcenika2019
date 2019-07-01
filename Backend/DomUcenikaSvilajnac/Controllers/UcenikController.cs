@@ -364,12 +364,17 @@ namespace DomUcenikaSvilajnac.Controllers
 
             var globalSettings = new GlobalSettings
             {
+                
                 ColorMode = ColorMode.Color,
                 Orientation = Orientation.Portrait,
                 PaperSize = PaperKind.A4,
-                Margins = new MarginSettings { Top = 10 },
+                Margins = new MarginSettings { Top = 10, Left=10, Right=10},
                 DocumentTitle = "RangLista",
-                Out = Path.Combine(_hostingEnvironment.WebRootPath, imeFajla)
+                Out = Path.Combine(_hostingEnvironment.WebRootPath,"PDF", imeFajla),
+                DPI=100,
+                
+                
+                
 
             };
 
@@ -377,9 +382,11 @@ namespace DomUcenikaSvilajnac.Controllers
             {
                 PagesCount = true,
                 HtmlContent = UnitOfWork.Ucenici.htmlListaRangiranih(muski,zenski),
-                WebSettings = { DefaultEncoding = "utf-8" },
+                
+                WebSettings = { DefaultEncoding = "utf-8" ,UserStyleSheet = Path.Combine( _hostingEnvironment.WebRootPath,"PDFStyles","PDFstyle.css")},
                 HeaderSettings = { FontName = "Arial", FontSize = 9 },
-                FooterSettings = { FontName = "Arial", FontSize = 9 }
+                FooterSettings = { FontName = "Arial", FontSize = 9 },
+                
             };
 
 

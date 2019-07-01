@@ -321,12 +321,15 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
             {
                 var rangirani = new List<Ucenik>();
 
+                string pol ="";
+
 
                 if (muski == "m" && zenski == "z")
                 {
                     rangirani = _context.Uceniks.Where(m => m.StatusPrijaveId == 3)
                   .Include(p => p.Pol)
                   .Include(p => p.Razred).ToList();
+                    pol = "";
                 }
 
 
@@ -335,6 +338,7 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
                  rangirani = _context.Uceniks.Where(m => m.StatusPrijaveId == 3 && m.Pol.Id == 1 )
                 .Include(p => p.Pol)
                 .Include(p => p.Razred).ToList();
+                    pol = "muški";
 
                 }
 
@@ -343,11 +347,13 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
                      rangirani = _context.Uceniks.Where(m => m.StatusPrijaveId == 3 && m.Pol.Id == 2)
                    .Include(p => p.Pol)
                    .Include(p => p.Razred).ToList();
+                    pol = "ženski";
+
 
                 }
 
-              
-               
+
+
 
 
 
@@ -355,7 +361,7 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
 
                 sb.Append(@"<html> <head> </head>
                <body>      
-                    <h1> gerisani pdf </h1>
+                    <h1> Primljeni "+ pol +@" učenici </h1>
                     <table align='center'>
                        <tr align='center'>
                         <th>Redni broj</th>
