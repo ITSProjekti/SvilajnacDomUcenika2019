@@ -398,7 +398,7 @@ namespace DomUcenikaSvilajnac.Controllers
 
             _converter.Convert(pdf);
 
-            return Ok("/Files/" +imeFajla);
+            return Ok("/Files/PDF" +imeFajla);
 
 
         }
