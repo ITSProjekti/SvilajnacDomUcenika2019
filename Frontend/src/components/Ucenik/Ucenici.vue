@@ -112,7 +112,7 @@
        v-if="!loading"
       rows-per-page-text="Redova po stranici"
       
-      :rows-per-page-items="[10,15,20,ucenici.length]"
+      :rows-per-page-items="[30,15,10,ucenici.length]"
       :search="search"
       :custom-filter="customFilter"
       class="elevation-1"   
@@ -157,7 +157,7 @@
 </transition >
     </v-card>
 </v-card>
-<v-btn dark class="navbarcolor "  @click="(polMuski='Muški'),(polZenski='Muški')">
+        <v-btn dark class="navbarcolor "  @click="(polMuski='Muški'),(polZenski='Muški')">
              Prikaz muških kandidata
         </v-btn>
          
@@ -168,6 +168,11 @@
         <v-btn  dark class="navbarcolor mt-2 mr-4"  @click="(polMuski='Ženski'),(polZenski='Ženski')">
               Prikaz ženskih kandidata
         </v-btn>
+
+        <p>{{ brojBodova }}</p>
+        <p>{{ polMuski }}</p>
+        <p>{{ polZenski }}</p>
+        
          
           <!-- <template>
                  <v-container fluid>

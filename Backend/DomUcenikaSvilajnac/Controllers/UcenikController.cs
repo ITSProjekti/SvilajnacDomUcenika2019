@@ -136,6 +136,11 @@ namespace DomUcenikaSvilajnac.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUcenik([FromRoute] int id, [FromBody] PutUcenikaResource ucenik)
         {
+
+            try
+            {
+
+            
             PutRoditeljaResource roditeljResurs = new PutRoditeljaResource()
             {
                 Id = ucenik.Roditelji.Id,
@@ -217,8 +222,14 @@ namespace DomUcenikaSvilajnac.Controllers
             }
             // pozivanje metode za update broja ucenika u vaspitnoj grupi
             await UnitOfWork.VaspitneGrupe.updateBrojaUcenikaUVaspitnojGrupi();
+                return Ok(noviUcenik);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
 
-            return Ok(noviUcenik);
+            return BadRequest();
         }
 
         /// <summary>

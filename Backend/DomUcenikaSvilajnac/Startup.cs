@@ -45,7 +45,7 @@ namespace DomUcenikaSvilajnac
 
             services.AddAutoMapper();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddDbContext<UcenikContext>(options => options.UseSqlServer(@"Data Source=PC-TIM4\SQLEXPRESS;Initial Catalog=DomUcenikaSvilajnac31;Integrated Security=True;Connect Timeout=30"));
+            services.AddDbContext<UcenikContext>(options => options.UseSqlServer(@"Data Source=(localdb)\MSSQLLocaldb;Initial Catalog=DomUcenikaSvilajnac31;Integrated Security=True;Connect Timeout=30"));
             services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
             services.AddSingleton(compositeProvider);
             services.AddMvc();
