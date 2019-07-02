@@ -28,9 +28,20 @@
       ></v-text-field>     
         </v-flex>
 
+
+      <v-flex xs2 sm2 d-flex>
+        <v-select
+          :items="poloviZaFilter"
+          label="Filter tabele po polu"
+          v-model="izabranPolUfilteru"
+        ></v-select>
+      </v-flex>
         
 <!-- pocetak popupa -->
 <v-dialog v-model="dialogPDF" max-width="400px">
+
+          
+
           <v-btn dark slot="activator" class="navbarcolor">
             Štampanje
           </v-btn>
@@ -65,7 +76,7 @@
           <!-- Glavna tabela prikaza svih prijavljenih ucenika -->
     <v-data-table  
       :headers="headers"
-      :items="ucenici"
+      :items="primljeniUceniciPoPolu"
        v-if="!loading"
       rows-per-page-text="Redova po stranici"
       
@@ -75,10 +86,7 @@
       class="elevation-1"   
       
      >
-      <template slot="items" slot-scope="props" reloadPage1
-        v-if="((props.item.pol.nazivPola == polKandidata)||(props.item.bodoviZaUpis >= brojBodovaZaPrijem)&&((props.item.pol.nazivPola == polZenski) || (props.item.pol.nazivPola == polMuski))&&(props.item.statusPrijave.status=='Primljen'))" 
-        
-      >
+      <template slot="items" slot-scope="props">
         <tr >
         <td  class="text-xs-left priority-1"  >{{ props.item.id}}</td>
           <td class="text-xs-left priority-1">{{ props.item.statusPrijave.status }}</td>
@@ -114,20 +122,9 @@
 </transition >
     </v-card>
 </v-card>
-<v-btn dark class="navbarcolor "  @click="(polMuski='Muški'),(polZenski='Muški')">
-             Prikaz muških kandidata
-        </v-btn>
-         
-        <v-btn dark class="navbarcolor mt-2 mr-4"  @click="(polMuski='Muški'),(polZenski='Ženski')">
-             Pretraga svih kandidata
-        </v-btn>
+       
         
-        <v-btn  dark class="navbarcolor mt-2 mr-4"  @click="(polMuski='Ženski'),(polZenski='Ženski')">
-              Prikaz ženskih kandidata
 
-        </v-btn>
-        <!-- <a href="C:\Users\Tim 4\Desktop\Rangirani_Ucenici.pdf" target="_blank">PDF</a> -->
-         
   </div>
   
 </template>
@@ -139,12 +136,10 @@ import axios from 'axios'
 
   export default {
     data: () => ({
-      
-      polMuski: 'Muški',
-      polZenski: 'Ženski',
+      poloviZaFilter: ["Muški", "Ženski", "oba pola"],
+      izabranPolUfilteru: "oba pola",
       polKandidata:'',
       brojBodova:0,
-      brojBodovaZaPrijem:0,
       brojMuskihKandidata: 0,
       brojZenskihKandidata: 0,
       pomocnaZaPol: 0,
@@ -451,8 +446,23 @@ import axios from 'axios'
       },
       created: function(){
        this.DugmeSubmit();
-    }
-    ,
+    },
+      primljeniUceniciPoPolu() {
+        var pol = this.izabranPolUfilteru;
+        return this.ucenici.filter(function (unk) {
+          if(pol == "oba pola"){
+            return unk.pol.nazivPola == "Muški" && unk.statusPrijave.id == 3 || unk.pol.nazivPola == "Ženski"  && unk.statusPrijave.id == 3
+          } else if(pol == "Muški"){
+            return unk.pol.nazivPola == "Muški" && unk.statusPrijave.id == 3
+          } else if (pol == "Ženski"){
+            return unk.pol.nazivPola == "Ženski" && unk.statusPrijave.id == 3
+          } else {
+            return unk.pol.nazivPola == "Muški"  && unk.statusPrijave.id == 3 || unk.pol.nazivPola == "Ženski"
+          }
+
+
+        });
+      }
     },
     
     
@@ -532,12 +542,6 @@ import axios from 'axios'
             vm.brojMuskihKandidata = 'Greska' + error;
         });
     },*/
-      
-       reloadPage1(){
-          
-   console.log('yo')
-   
-  },
         reloadPage(){
           
    console.log('yo')
@@ -547,12 +551,12 @@ import axios from 'axios'
     this.$store.dispatch('loadedPDF')
   },
          ClearPicture(){
-   this.file=''
-   this.imagePreview=''
-    this.editedItem.slika= ''
-    	const input = this.$refs.file;
-        input.type = 'text';
-        input.type = 'file';
+          this.file=''
+          this.imagePreview=''
+          this.editedItem.slika= ''
+        	const input = this.$refs.file;
+          input.type = 'text';
+          input.type = 'file';
       },
 
            handleFileUpload(){

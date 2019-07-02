@@ -29,6 +29,17 @@
       ></v-text-field>     
       
         </v-flex>
+
+        <v-flex xs2 sm2 d-flex>
+          <v-select
+           class="mt10 mb10"
+            id="selectPol"
+            :items="poloviZaFilter"
+            label="Filter tabele po polu"
+            v-model="izabranPolUfilteru"
+          ></v-select>
+          </v-flex>
+        
       
         <!-- pocetak popupa -->
         <template>
@@ -37,6 +48,7 @@
             <img class ="mr-3" :src=rangiraj.srcmain>
             Rangirajte 
           </v-btn>
+
           <v-card>
             <v-card-title>
               <h2>Parametri za rangiranje</h2>
@@ -80,6 +92,7 @@
                 <img class ="mr-3 " :src=rangiraj.srcmain>
                 Rangirajte</v-btn>
               <v-btn color="green darken-1" flat @click="dialogRangiranje = false">Odustanite</v-btn> 
+              
               <!-- <v-spacer></v-spacer> -->
             </v-card-actions>
 
@@ -108,7 +121,7 @@
           <!-- Glavna tabela prikaza svih prijavljenih ucenika -->
     <v-data-table  
       :headers="headers"
-      :items="ucenici"
+      :items="this.filtriraniUceniciMZ"
        v-if="!loading"
       rows-per-page-text="Redova po stranici"
       
@@ -118,10 +131,7 @@
       class="elevation-1"   
       
      >
-      <template slot="items" slot-scope="props" reloadPage1
-        v-if="((props.item.pol.nazivPola == polKandidata)||(props.item.bodoviZaUpis >= brojBodovaZaPrijem)&&((props.item.pol.nazivPola == polZenski) || (props.item.pol.nazivPola == polMuski)))" 
-        
-      >
+      <template slot="items" slot-scope="props">
         <tr >
         <td  class="text-xs-left priority-1"  >{{ props.item.id}}</td>
           <td class="text-xs-left priority-1">{{ props.item.statusPrijave.status }}</td>
@@ -157,7 +167,7 @@
 </transition >
     </v-card>
 </v-card>
-        <v-btn dark class="navbarcolor "  @click="(polMuski='Muški'),(polZenski='Muški')">
+        <!-- <v-btn dark class="navbarcolor "  @click="(polMuski='Muški'),(polZenski='Muški')">
              Prikaz muških kandidata
         </v-btn>
          
@@ -167,11 +177,23 @@
         
         <v-btn  dark class="navbarcolor mt-2 mr-4"  @click="(polMuski='Ženski'),(polZenski='Ženski')">
               Prikaz ženskih kandidata
+        </v-btn> -->
+        <v-btn id="okidacUcenikaPoPolu" dark class="navbarcolor mt-2 mr-4"  @click="uceniciPoPolu">
+              log
         </v-btn>
 
-        <p>{{ brojBodova }}</p>
-        <p>{{ polMuski }}</p>
-        <p>{{ polZenski }}</p>
+  <v-flex xs12 sm6 d-flex>
+    <!-- <v-select
+      :items="poloviZaFilter"
+      label="Filter tabele po polu"
+      solo
+      v-model="izabranPolUfilteru"
+    ></v-select> -->
+  </v-flex>
+
+  <!-- <p> {{ this.ucenici }} </p> -->
+<!-- <p> {{ this.izabranPolUfilteru }} </p> -->
+  
         
          
           <!-- <template>
@@ -250,12 +272,14 @@ import axios from 'axios'
 
   export default {
     data: () => ({
-      
-      polMuski: 'Muški',
-      polZenski: 'Ženski',
+      poloviZaFilter: ["Muški", "Ženski", "oba pola"],
+      izabranPolUfilteru: "oba pola",
+      filtriraniUceniciMZ: this.ucenici,
+      // polMuski: 'Muški',
+      // polZenski: 'Ženski',
       polKandidata:'',
       brojBodova:0,
-      brojBodovaZaPrijem:0,
+      // brojBodovaZaPrijem:0,
       brojMuskihKandidata: 0,
       brojZenskihKandidata: 0,
       pomocnaZaPol: 0,
@@ -500,6 +524,7 @@ import axios from 'axios'
             }
       }
     }),
+    
     // computed metode su metode koje se desavaju onda kada dodje do nekakvim promena stanja komponente, neki vid watcher-a
     computed: {
       // logika za racunanje progress bar-a kod jmbg, 105 je prva granica a drugi parametar u math.min funkciji sluzi za formiranje 13 podeoka 
@@ -572,28 +597,51 @@ import axios from 'axios'
       dialog (val) {
 
         val || this.close()
-      }
+      },
+      ucenici : function(){
+        console.log("watcher radi");
+          document.getElementById("okidacUcenikaPoPolu").click();
+      },
+      izabranPolUfilteru : function(){
+        console.log("watcher radi");
+          document.getElementById("okidacUcenikaPoPolu").click();
+      },
     },
     methods: {
-      
- /*  DugmeSubmit : function(){
-      console.log("sssssss");
-         PrijavljenUcenik()   
-    },*/
-    // PrijavljenUcenik(){
-    //    this.form.post('http://localhost:62768/api/Primljeni/', {
-    //      brojMuskihKandidata: this.brojMuskihKandidata,
-    //      brojZenskihKandidata: this.brojZenskihKandidata,
-    //      brojBodova: this.brojBodova
-    //    })
-    //     .then(function (response) {
-    //       console.log(response); // sta radi kad uspe
-    //     })
-    //     .catch(function (error) {
-    //       console.log(error); //sta radi ako ne prodje
-    //     });
-    //     this.$router.push('/PregledUcenika')
-    // },
+      uceniciPoPolu() {
+        var pol = this.izabranPolUfilteru;
+        this.filtriraniUceniciMZ = this.ucenici.filter(function (unk) {
+          if(pol == "oba pola"){
+            return unk.pol.nazivPola == "Muški" || unk.pol.nazivPola == "Ženski"
+          } else if(pol == "Muški"){
+            return unk.pol.nazivPola == "Muški"
+          } else if (pol == "Ženski"){
+            return unk.pol.nazivPola == "Ženski"
+          } else {
+            return unk.pol.nazivPola == "Muški" || unk.pol.nazivPola == "Ženski"
+          }
+        });
+        console.log("ananas");
+      },
+      uceniciPoPolu2(ucnk) {
+        var pol = this.izabranPolUfilteru;
+        return this.ucnk.filter(function (ucnk) {
+          if(pol == "oba pola"){
+            return ucnk.pol.nazivPola == "Muški" || ucnk.pol.nazivPola == "Ženski"
+          } else if(pol == "Muški"){
+            return ucnk.pol.nazivPola == "Muški"
+          } else if (pol == "Ženski"){
+            return ucnk.pol.nazivPola == "Ženski"
+          } else {
+            return ucnk.pol.nazivPola == "Muški" || ucnk.pol.nazivPola == "Ženski"
+          }
+        });
+        console.log("ananas2");
+      },
+      prenesiUvar(){
+        this.filtriraniUceniciMZ
+        console.log(this.filtriraniUceniciMZ);
+      },
       primiUdom() {
         const parametriZaPrijavu = {
           brojMuskih: this.brojMuskihKandidata,
@@ -619,17 +667,11 @@ import axios from 'axios'
         //   }
         // })
       },
-      
-       reloadPage1(){
-          
-   console.log('yo')
-   
-  },
-        reloadPage(){
-          
-   console.log('yo')
-   this.$store.dispatch('loadedUcenici')
-  },
+  
+      reloadPage(){   
+        console.log('yo')
+        this.$store.dispatch('loadedUcenici')
+      },
   stampaj(){
     this.$store.dispatch('loadedPDF')
   },
@@ -775,18 +817,28 @@ import axios from 'axios'
         this.close()
       }   
       },
-     
-        
-      
+      mounted() {
+        document.getElementById("okidacUcenikaPoPolu").click();
+        clonsole.log("mountovan");
+    },    
 
   }
 </script>
 
 <style >
+
+#selectPol{
+  width:20%;
+}
+
 .slidetoleft-enter{
   opacity: 0;
 }
 
+
+#okidacUcenikaPoPolu{
+  display:none;
+}
 .slidetoleft-enter-active{
   animation: slidetoleft-in 1s ease-out forwards;
   transition: opacity 2s ease-out;
@@ -843,6 +895,7 @@ td:nth-child(odd) {
   overflow:hidden;
   text-overflow:ellipsis;
  
+
 
 }
 /* responsive tabele, uklanjanje kolona */
