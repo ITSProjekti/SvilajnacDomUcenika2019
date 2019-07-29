@@ -182,6 +182,8 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
 
 
 
+
+
         public async Task<PostUcenikaResource> mapiranjeZaPostUcenika(PostUcenikaResource ucenik)
         {
             var podaciUcenika = await _context.Uceniks
@@ -319,7 +321,7 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
             
         }
 
-
+        //treba odvojiti vrati muske i vrati zenske
         public  string htmlListaRangiranih(string muski, string zenski)
         {
             try
