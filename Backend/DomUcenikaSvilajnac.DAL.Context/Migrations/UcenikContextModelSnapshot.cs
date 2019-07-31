@@ -395,8 +395,6 @@ namespace DomUcenikaSvilajnac.DAL.Context.Migrations
 
                     b.Property<int>("MestoRodjenjaId");
 
-                    b.Property<int>("MestoZavrseneSkoleId");
-
                     b.Property<int>("OpstinaId");
 
                     b.Property<int>("OpstinaPrebivalistaId");
@@ -439,8 +437,6 @@ namespace DomUcenikaSvilajnac.DAL.Context.Migrations
                     b.HasIndex("MestoPrebivalistaId");
 
                     b.HasIndex("MestoRodjenjaId");
-
-                    b.HasIndex("MestoZavrseneSkoleId");
 
                     b.HasIndex("OpstinaId");
 
@@ -606,11 +602,6 @@ namespace DomUcenikaSvilajnac.DAL.Context.Migrations
                     b.HasOne("DomUcenikaSvilajnac.Common.Models.Mesto", "MestoRodjenja")
                         .WithMany()
                         .HasForeignKey("MestoRodjenjaId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DomUcenikaSvilajnac.Common.Models.Mesto", "MestoZavrseneSkole")
-                        .WithMany()
-                        .HasForeignKey("MestoZavrseneSkoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("DomUcenikaSvilajnac.Common.Models.Opstina", "Opstina")

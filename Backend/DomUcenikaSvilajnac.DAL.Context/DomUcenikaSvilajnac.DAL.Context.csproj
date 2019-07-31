@@ -48,6 +48,7 @@
     <Compile Remove="Migrations\20190315133550_DodatPrimljen_u_Model.cs" />
     <Compile Remove="Migrations\20190315134049_DodatPrimljen_u_Model.cs" />
     <Compile Remove="Migrations\20190321125005_Sobe.cs" />
+    <Compile Remove="Migrations\20190617132628_PromenjenModelUcenika.cs" />
   </ItemGroup>
 
   <ItemGroup>

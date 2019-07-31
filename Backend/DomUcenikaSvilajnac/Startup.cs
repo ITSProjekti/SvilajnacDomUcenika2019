@@ -45,7 +45,7 @@ namespace DomUcenikaSvilajnac
 
             services.AddAutoMapper();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddDbContext<UcenikContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Connection")) );
+            services.AddDbContext<UcenikContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Svilajnac")) );
             services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
             services.AddSingleton(compositeProvider);
             services.AddMvc();
