@@ -20,6 +20,7 @@ using Syncfusion.Drawing;
 using DinkToPdf;
 using DinkToPdf.Contracts;
 using Microsoft.AspNetCore.Hosting;
+using DomUcenikaSvilajnac.Common.Services;
 
 namespace DomUcenikaSvilajnac.Controllers
 {
@@ -32,7 +33,6 @@ namespace DomUcenikaSvilajnac.Controllers
     {
         public IMapper _mapper { get; }
         public IUnitOfWork UnitOfWork { get; }
-
         public UcenikContext context;
 
         public IConverter _converter;
@@ -361,17 +361,23 @@ namespace DomUcenikaSvilajnac.Controllers
 
         [HttpGet]
         [Route("pdf")]
-        public IActionResult GetPdf( string muski, string zenski )
+        public IActionResult GetPdf( string muski, string zenski, string pismo )
         {
 
             
             var imeFajla ="";
-            if (muski == "m" && zenski == "z")
-                imeFajla = "Primljeni_Ucenici.pdf";
-            else if (muski == "m")
-                imeFajla = "Primljeni_Muski.pdf";
-            else if (zenski == "z")
-                imeFajla = "Primljeni_Zenski.pdf";
+            if (muski == "m" && zenski == "z" && pismo == "l")
+                imeFajla = "Primljeni_Učenici.pdf";
+            else if (muski == "m" && zenski == "z" && pismo == "c")
+                imeFajla = "Примљени_Ученици.pdf";
+            else if (muski == "m" && pismo == "l")
+                imeFajla = "Primljeni_Muški.pdf";
+            else if (muski == "m" && pismo == "c")
+                imeFajla = "Примљени_Мушки.pdf";
+            else if (zenski == "z" && pismo == "l")
+                imeFajla = "Primljeni_Ženski.pdf";
+            else if (zenski == "z" && pismo == "c")
+                imeFajla = "Примљени_Женски.pdf";
 
             var globalSettings = new GlobalSettings
             {
@@ -392,7 +398,7 @@ namespace DomUcenikaSvilajnac.Controllers
             var objectSettings = new ObjectSettings
             {
                 PagesCount = true,
-                HtmlContent = UnitOfWork.Ucenici.htmlListaRangiranih(muski,zenski),
+                HtmlContent = UnitOfWork.Ucenici.htmlListaRangiranih(muski, zenski, pismo),
                 
                 WebSettings = { DefaultEncoding = "utf-8" ,UserStyleSheet = Path.Combine( _hostingEnvironment.WebRootPath,"PDFStyles","PDFstyle.css")},
                 HeaderSettings = { FontName = "Arial", FontSize = 9 },
