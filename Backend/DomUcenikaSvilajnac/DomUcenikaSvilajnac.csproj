@@ -39,6 +39,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DomUcenikaSvilajnac.Common.Interfaces\DomUcenikaSvilajnac.Common.Interfaces.csproj" />
+    <ProjectReference Include="..\DomUcenikaSvilajnac.Common.Services\DomUcenikaSvilajnac.Common.Services.csproj" />
     <ProjectReference Include="..\DomUcenikaSvilajnac.DAL.Context\DomUcenikaSvilajnac.DAL.Context.csproj" />
     <ProjectReference Include="..\DomUcenikaSvilajnac.DAL.RepoPattern\DomUcenikaSvilajnac.DAL.RepoPattern.csproj" />
   </ItemGroup>

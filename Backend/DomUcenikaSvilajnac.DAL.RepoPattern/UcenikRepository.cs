@@ -2,6 +2,7 @@
 using DomUcenikaSvilajnac.Common.Interfaces;
 using DomUcenikaSvilajnac.Common.Models;
 using DomUcenikaSvilajnac.Common.Models.ModelResources;
+using DomUcenikaSvilajnac.Common.Services;
 using DomUcenikaSvilajnac.DAL.Context;
 using DomUcenikaSvilajnac.DAL.RepoPattern;
 using DomUcenikaSvilajnac.ModelResources;
@@ -24,11 +25,13 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
     {
         protected readonly UcenikContext _context;
         public IMapper Mapper { get; }
+        public ITransliterator transliterator;
         /// <summary>
         /// Inicijalizacije instance klase UcenikRepository.
         /// </summary>
         public UcenikRepository(UcenikContext context, IMapper mapper) : base(context)
         {
+            transliterator = LatUCirTransliterator.Instance;
             _context = context;
             Mapper = mapper;
         }
@@ -308,7 +311,7 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
         }
 
         //treba odvojiti vrati muske i vrati zenske
-        public  string htmlListaRangiranih(string muski, string zenski)
+        public  string htmlListaRangiranih(string muski, string zenski, string pismo)
         {
             try
             {
@@ -352,17 +355,19 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
 
                 var sb = new StringBuilder();
 
-                sb.Append(@"<html> <head> </head>
+                if(pismo == "l")
+                {
+                    sb.Append(@"<html> <head> </head>
                <body>      
-                    <h1> Primljeni "+ pol +@" učenici </h1>
+                    <h1> Primljeni " + pol + @" učenici </h1>
                     <table align='center'>
                        <tr align='center'>
                         <th>Redni broj</th>
-                        <th> Ime</th>
-                        <th> Prezime</th>
-                        <th> Broj poena </th>
-                        <th> Pol  </th>
-                        <th> Razred  </th>
+                        <th>Ime</th>
+                        <th>Prezime</th>
+                        <th>Broj poena</th>
+                        <th>Pol</th>
+                        <th>Razred</th>
 
                         
 
@@ -370,10 +375,10 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
 
                     ");
 
-                int i = 1;
-                foreach (Ucenik u in rangirani)
-                {
-                    sb.AppendFormat(@"<tr align='center'>
+                    int i = 1;
+                    foreach (Ucenik u in rangirani)
+                    {
+                        sb.AppendFormat(@"<tr align='center'>
                     <td>{0}</td>
                     <td>{1}</td>
                     <td>{2}</td>
@@ -387,16 +392,66 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
                     
 
 
-                        ",i + ".", u.Ime, u.Prezime,u.BodoviZaUpis,u.Pol.NazivPola,u.Razred.BrojRazreda);
+                        ", i + ".", u.Ime, u.Prezime, u.BodoviZaUpis, u.Pol.NazivPola, u.Razred.BrojRazreda);
 
-                    i++;
-                }
+                        i++;
+                    }
 
-                sb.Append(@"</table>
+                    sb.Append(@"</table>
                     </body>
                     </html>");
 
-                return sb.ToString();
+                    return sb.ToString();
+                }
+                else
+                {
+                                        sb.Append(@"<html> <head> </head>
+               <body>      
+                    <h1> Примљени " + transliterator.Transliterate(pol) + @" ученици </h1>
+                    <table align='center'>
+                       <tr align='center'>
+                        <th>Редни број</th>
+                        <th>Име</th>
+                        <th>Презиме</th>
+                        <th>Број поена</th>
+                        <th>Пол</th>
+                        <th>Разред</th>
+
+                        
+
+                        </tr>
+
+                    ");
+
+                    int i = 1;
+                    foreach (Ucenik u in rangirani)
+                    {
+                        sb.AppendFormat(@"<tr align='center'>
+                    <td>{0}</td>
+                    <td>{1}</td>
+                    <td>{2}</td>
+                    <td>{3}</td>
+                    <td>{4}</td>
+                    <td>{5}</td>
+
+
+
+                </tr>
+                    
+
+
+                        ", i + ".", transliterator.Transliterate(u.Ime), transliterator.Transliterate(u.Prezime), u.BodoviZaUpis, transliterator.Transliterate(u.Pol.NazivPola), u.Razred.BrojRazreda);
+
+                        i++;
+                    }
+
+                    sb.Append(@"</table>
+                    </body>
+                    </html>");
+
+                    return sb.ToString();
+                }
+                
             }
             catch (Exception)
             {
