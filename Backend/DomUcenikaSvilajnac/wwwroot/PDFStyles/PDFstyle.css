@@ -39,12 +39,10 @@ h1 {
     font-weight: 700;
     font-size: 36px;
     margin-top: 30px;
-    letter-spacing: 10px;
 }
 
 td, th {
     /*font-family: sans-serif;*/
-    letter-spacing: 10pt;
     height: 35px;
     border-bottom: 1px solid #dedede;
 }
