@@ -368,7 +368,7 @@ namespace DomUcenikaSvilajnac.Controllers
 
 
 
-            var imeFajla = UnitOfWork.Ucenici.vratiNaslove(naslov) + " " + muski + " " + zenski + " " + razred;
+            var imeFajla = UnitOfWork.Ucenici.vratiNaslove(naslov) + " " + muski + " " + zenski + " " +pismo + " " + razred ;
             if (pismo == "c")
                 _transliterator.Transliterate(imeFajla);
 

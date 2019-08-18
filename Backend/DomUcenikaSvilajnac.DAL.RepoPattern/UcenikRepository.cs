@@ -529,8 +529,8 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
                                         sb.Append(@"<html> <head> </head>
                <body>      
                     <div id='title-div'>
-                        <img src="+ Path.Combine(_environment.ContentRootPath,"wwwroot / logo.png")+@">
-                        < h1> " + transliterator.Transliterate(listaNaslov) + @" ученици </h1>
+                        <img src=" + Path.Combine(_environment.ContentRootPath, "wwwroot/logo.png") + @">
+                        <h1> " + transliterator.Transliterate(listaNaslov) + @" ученици </h1>
                     </div> 
                     <table align='center'>
                        <tr align='center'>
