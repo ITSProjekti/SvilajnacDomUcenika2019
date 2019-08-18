@@ -19,29 +19,26 @@
           </transition>
       <v-layout wrap justify-end >
         <v-flex xs3 class="mb-2 mr-3">
-        <v-text-field      
-        v-model="search"
-        append-icon="search"
-        label="Pretraga"
-        single-line
-        hide-details
-      ></v-text-field>     
+          <v-text-field      
+          v-model="search"
+          append-icon="search"
+          label="Pretraga"
+          single-line
+          hide-details
+          ></v-text-field>     
         </v-flex>
 
+        <v-flex xs2 sm2 d-flex>
+          <v-select
+            :items="poloviZaFilter"
+            label="Filter tabele po polu"
+            v-model="izabranPolUfilteru"
+          ></v-select>
+        </v-flex>
 
-      <v-flex xs2 sm2 d-flex>
-        <v-select
-          :items="poloviZaFilter"
-          label="Filter tabele po polu"
-          v-model="izabranPolUfilteru"
-        ></v-select>
-      </v-flex>
         
 <!-- pocetak popupa -->
 <v-dialog v-model="dialogPDF" max-width="400px">
-
-          
-
           <v-btn dark slot="activator" class="navbarcolor">
             Štampanje
           </v-btn>
@@ -49,12 +46,56 @@
             <v-card-title>
               <h2>Parametri za štampu</h2>
             </v-card-title>
+            
+            <v-container fluid>
+              <v-select
+                :items="nasloviZaFilter"
+                item-text="name"
+                label="naslov"
+                v-model="izabraniNaslovUfilteru"
+              ></v-select>
+            </v-container>
+
             <v-flex offset-sm2  xs12 sm8 class="mt-4 ">
               <v-container fluid>
                 <v-switch v-model="PDFpol" color="success" label="muški učenici" value="m"></v-switch>
                 <v-switch v-model="PDFpol" color="success" label="ženski učenici" value="z"></v-switch>
               </v-container>
             </v-flex>
+            <!-- <v-flex xs2 sm2 d-flex> -->
+              <v-container fluid>
+                <v-select
+                  :items="pismaZaFilter"
+                  item-text="name"
+                  label="pismo"
+                  v-model="izabranoPismoUfilteru"
+                ></v-select>
+              </v-container>
+            <!-- </v-flex> -->
+            
+            <v-container fluid>
+              <v-col cols="12">
+                <header>Razredi</header>
+              </v-col>
+              <v-layout row>
+                <v-flex md3>
+                  <v-checkbox class="razred-checkbox" v-model="izabraniRazredi" label="I" value="1" color="success"></v-checkbox>
+                </v-flex>
+                <v-flex md3>
+                  <v-checkbox class="razred-checkbox" v-model="izabraniRazredi" label="II" value="2" color="success"></v-checkbox>
+                </v-flex>
+                <v-flex md3>
+                  <v-checkbox class="razred-checkbox" v-model="izabraniRazredi" label="III" value="3" color="success"></v-checkbox>
+                </v-flex>                
+                <v-flex md3>
+                  <v-checkbox class="razred-checkbox" v-model="izabraniRazredi" label="IV" value="4" color="success"></v-checkbox>
+                </v-flex>
+              </v-layout>
+                <p> {{ this.pdfUrl  }} </p>
+                <v-btn @click="createPdfUrl()">
+                  kreiraj pdf url
+                </v-btn>
+            </v-container>
 
             <v-card-actions>
               <v-spacer></v-spacer>
@@ -146,7 +187,16 @@ import axios from 'axios'
       // dialog je promenljiva koja sluzi za prikazivanje dijaloga pri menjanju ili prijavi ucenika
       dialog: false,
       dialogPDF: false,
+      pismaZaFilter: [{name: 'ćirilica', value:'c'},{name:'latinica', value:'l'}],
+      izabranoPismoUfilteru: "c",
+      izabraniRazredi:  ["1","2","3","4"],
+      nasloviZaFilter: [{name:'Rang lista', value:'rang'},
+                        {name:'Preliminarna rang lista', value:'preliminarna'},
+                        {name:'Finalna rang lista', value:'finalna'},
+                        {name:'Revidirana konačna rang lista', value:'revidirana'}],
+      izabraniNaslovUfilteru: "rang",
       PDFpol: ['m','z'],
+      pdfUrl:'',
       select: '',
       opcijeX: [
         'Ime',
@@ -474,20 +524,27 @@ import axios from 'axios'
       }
     },
     methods: {
+      createPdfUrl(){
+        let polUrlParams = "";
+         if (this.PDFpol.includes("m") && this.PDFpol.includes("z")){
+          polUrlParams = "muski=Muški&zenski=Ženski"
+        } else if(this.PDFpol.includes("m")){
+          polUrlParams = "muski=Muški"
+        } else if(this.PDFpol.includes("z")){
+          polUrlParams = "zenski=Ženski"
+        } else {
+          polUrlParams = "muski=Muški&zenski=Ženski"
+        }
+        let razredUrlParams = this.izabraniRazredi.length !== 0 ? "&razred=" + this.izabraniRazredi.join("") : "&razred=1234";       
+        this.pdfUrl="?" + polUrlParams +
+                    "&pismo=" + this.izabranoPismoUfilteru + 
+                    razredUrlParams + 
+                    "&naslov=" + this.izabraniNaslovUfilteru;
+      },
       otvoriPDF() {
         var self = this;
-        var urlParams = "";
-         if (self.PDFpol.includes("m") && self.PDFpol.includes("z")){
-          urlParams = "?muski=m&zenski=z"
-        } else if(self.PDFpol.includes("m")){
-          urlParams = "?muski=m"
-        } else if(self.PDFpol.includes("z")){
-          urlParams = "?zenski=z"
-        } else {
-          urlParams = "?muski=m&zenski=z"
-        }
-        console.log(urlParams);
-        axios.get('http://localhost:62768/api/ucenik/pdf'+ urlParams)
+        this.createPdfUrl();
+        axios.get('http://localhost:62768/api/ucenik/pdf'+ this.pdfUrl)
         .then(function (response) {
           self.dialogPDF = false;
           window.open("http://localhost:62768/" + response.data)
