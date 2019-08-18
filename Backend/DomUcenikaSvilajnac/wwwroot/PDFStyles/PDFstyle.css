@@ -11,42 +11,63 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
 body {
-	line-height: 1;
+    line-height: 1;
 }
+
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
+    border-collapse: collapse;
+    border-spacing: 0;
 }
 
 /*reset end*/
 
 h1 {
     text-align: center;
-    /* font-family: sans-serif;*/
+    font-family: sans-serif;
     font-weight: 700;
     font-size: 36px;
     margin-top: 30px;
+    margin-bottom: 30px;
+    line-height: 50px;
 }
 
 td, th {
-    /*font-family: sans-serif;*/
+    font-family: sans-serif;
     height: 35px;
     border-bottom: 1px solid #dedede;
+    padding-top: 9px;
+    font-size: 16px;
 }
 
-table{
+table {
     width: 100%;
 }
+
+#title-div {
+    display: block;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+    #title-div h1, #title-div img {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    #title-div img {
+        height: 90px;
+        margin-right: 8px;
+    }

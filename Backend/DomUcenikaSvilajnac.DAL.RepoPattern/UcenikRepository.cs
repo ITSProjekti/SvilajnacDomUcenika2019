@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -466,8 +467,11 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
                 if(pismo == "l")
                 {
                     sb.Append(@"<html> <head> </head>
-               <body>      
-                    <h1> "+listaNaslov+ @" učenici </h1>
+               <body>
+                    <div id='title-div'>
+                        <img src='logo.png'>
+                        <h1> " + listaNaslov + @" učenici </h1>
+                    </div> 
                     <table align='center'>
                        <tr align='center'>
                         <th>Redni broj</th>
@@ -515,7 +519,10 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
                 {
                                         sb.Append(@"<html> <head> </head>
                <body>      
-                    <h1> " + transliterator.Transliterate( listaNaslov)+  @" ученици </h1>
+                    <div id='title-div'>
+                        <img src='logo.png'>
+                        <h1> " + transliterator.Transliterate(listaNaslov) + @" ученици </h1>
+                    </div> 
                     <table align='center'>
                        <tr align='center'>
                         <th>Редни број</th>
