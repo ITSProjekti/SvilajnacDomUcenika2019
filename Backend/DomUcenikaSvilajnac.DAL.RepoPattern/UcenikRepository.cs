@@ -4,9 +4,7 @@ using DomUcenikaSvilajnac.Common.Models;
 using DomUcenikaSvilajnac.Common.Models.ModelResources;
 using DomUcenikaSvilajnac.Common.Services;
 using DomUcenikaSvilajnac.DAL.Context;
-using DomUcenikaSvilajnac.DAL.RepoPattern;
 using DomUcenikaSvilajnac.ModelResources;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -306,49 +304,159 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
 
         public IEnumerable<UcenikResource> vratiPrimljene()
         {
-            return Mapper.Map<List<Ucenik>, List<UcenikResource>>(_context.Uceniks.Where(m => m.StatusPrijaveId == 3) .ToList());
+            return Mapper.Map<List<Ucenik>, List<UcenikResource>>(vratiPrimljeneUcenike().ToList());
             
         }
+        
+
+        /* ---------------------------- */
+
+        public IQueryable<Ucenik> vratiPrimljeneUcenike()
+        {
+            return _context.Uceniks.Where(m => m.StatusPrijaveId == 3);
+        }
+
+
+        public IQueryable<Ucenik> vratiPoPolu(string pol, IQueryable<Ucenik> prethodni = null)
+        {
+            string[] polovi = pol.Split(",");
+
+            if (polovi.Length == 1)
+            {
+                if (prethodni == null)
+                    return _context.Uceniks.Where(m => m.Pol.NazivPola == pol)
+                        .Include(m => m.Pol)
+                        .Include(m => m.Razred);
+                else
+                    return prethodni.Where(m => m.Pol.NazivPola == pol)
+                   .Include(m => m.Pol)
+                   .Include(m => m.Razred);
+
+            }
+            else
+            {
+                if (prethodni == null)
+                    return _context.Uceniks
+                        .Include(m => m.Pol)
+                        .Include(m => m.Razred);
+                else
+                    return prethodni
+                   .Include(m => m.Pol)
+                   .Include(m => m.Razred);
+            }
+
+        }
+
+        public IQueryable<Ucenik> vratiPoRazredu(string Razred, IQueryable<Ucenik> prethodni = null)
+        {
+
+           
+
+            if (Razred.Length == 1)
+            {
+                if (prethodni == null)
+                    return _context.Uceniks.Where(m => m.Razred.BrojRazreda == Razred)
+                    .Include(m => m.Pol)
+                    .Include(m => m.Razred);
+                else return prethodni.Where(m => m.RazredId == Convert.ToInt32(Razred))
+                   .Include(m => m.Pol)
+                   .Include(m => m.Razred);
+            }
+
+            else
+            {
+                char[] razred = Razred.ToCharArray();
+                int[] razredId = new  int[razred.Length];
+                int i = 0;
+                foreach (var item in razred)
+                {
+                    razredId[i] = Convert.ToInt32(Char.GetNumericValue(item) );
+                    i++;
+                }
+
+            
+
+
+                if (prethodni == null)
+                    return _context.Uceniks.Where(m=>razredId.Contains(m.RazredId))
+                    .Include(m => m.Pol)
+                    .Include(m => m.Razred);
+                else return prethodni.Where(m =>razredId.Contains(m.RazredId) )
+                   .Include(m => m.Pol)
+                   .Include(m => m.Razred);
+
+
+            }
+
+
+        }
+
+
+        public string vratiNaslove (string naslov)
+        {
+
+            string povratno;
+
+            switch (naslov)
+            {
+                case "rang":
+                    povratno = "Rang lista";
+                    break;
+                case "preliminarna":
+                    povratno = "Preliminarna rang lista";
+                    break;
+                case "finalna":
+                    povratno = "Finalna rang lista";
+                    break;
+                case "revidirana":
+                    povratno = "Revidirana konacna rang lista";
+                    break;
+
+                default:
+                    povratno = "Rang lista";
+                    break;
+               
+            }
+
+            return povratno;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         //treba odvojiti vrati muske i vrati zenske
-        public  string htmlListaRangiranih(string muski, string zenski, string pismo)
+        public  string htmlListaRangiranih(string muski, string zenski, string pismo,string razred,string naslov)
         {
             try
             {
                 var rangirani = new List<Ucenik>();
 
-                string pol ="";
+                string pol =muski +","+ zenski;
 
 
-                if (muski == "m" && zenski == "z")
-                {
-                    rangirani = _context.Uceniks.Where(m => m.StatusPrijaveId == 3)
-                  .Include(p => p.Pol)
-                  .Include(p => p.Razred).ToList();
-                    pol = "";
-                }
+
+                IQueryable<Ucenik> uceniks = vratiPrimljeneUcenike();
+                uceniks = vratiPoPolu(pol, uceniks);
+                uceniks = vratiPoRazredu(razred, uceniks);    
+
+                rangirani = uceniks.ToList();
 
 
-                if (muski == "m" && zenski !="z")
-                {
-                 rangirani = _context.Uceniks.Where(m => m.StatusPrijaveId == 3 && m.Pol.Id == 1 )
-                .Include(p => p.Pol)
-                .Include(p => p.Razred).ToList();
-                    pol = "muški";
 
-                }
+                string listaNaslov = vratiNaslove(naslov);
 
-                if (zenski == "z" && muski!="m")
-                {
-                     rangirani = _context.Uceniks.Where(m => m.StatusPrijaveId == 3 && m.Pol.Id == 2)
-                   .Include(p => p.Pol)
-                   .Include(p => p.Razred).ToList();
-                    pol = "ženski";
-
-
-                }
-
-
+                listaNaslov += " " + pol;
 
 
 
@@ -359,7 +467,7 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
                 {
                     sb.Append(@"<html> <head> </head>
                <body>      
-                    <h1> Primljeni " + pol + @" učenici </h1>
+                    <h1> "+listaNaslov+ @" učenici </h1>
                     <table align='center'>
                        <tr align='center'>
                         <th>Redni broj</th>
@@ -407,7 +515,7 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
                 {
                                         sb.Append(@"<html> <head> </head>
                <body>      
-                    <h1> Примљени " + transliterator.Transliterate(pol) + @" ученици </h1>
+                    <h1> " + transliterator.Transliterate( listaNaslov)+  @" ученици </h1>
                     <table align='center'>
                        <tr align='center'>
                         <th>Редни број</th>

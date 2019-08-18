@@ -18,6 +18,7 @@ using DinkToPdf;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
 using System.Reflection;
+using DomUcenikaSvilajnac.Common.Services;
 
 namespace DomUcenikaSvilajnac
 {
@@ -45,6 +46,7 @@ namespace DomUcenikaSvilajnac
 
             services.AddAutoMapper();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<ITransliterator, LatUCirTransliterator>();
             services.AddDbContext<UcenikContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Connection")) );
             services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
             services.AddSingleton(compositeProvider);
