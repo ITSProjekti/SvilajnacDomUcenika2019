@@ -5,6 +5,7 @@ using DomUcenikaSvilajnac.Common.Models.ModelResources;
 using DomUcenikaSvilajnac.Common.Services;
 using DomUcenikaSvilajnac.DAL.Context;
 using DomUcenikaSvilajnac.ModelResources;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -25,14 +26,16 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
         protected readonly UcenikContext _context;
         public IMapper Mapper { get; }
         public ITransliterator transliterator;
+        public IHostingEnvironment _environment;
         /// <summary>
         /// Inicijalizacije instance klase UcenikRepository.
         /// </summary>
-        public UcenikRepository(UcenikContext context, IMapper mapper) : base(context)
+        public UcenikRepository(UcenikContext context, IMapper mapper, IHostingEnvironment environment) : base(context)
         {
             transliterator = LatUCirTransliterator.Instance;
             _context = context;
             Mapper = mapper;
+            _environment = environment;
         }
 
         public IUcenikRepository Ucenici { get; set; }
@@ -443,7 +446,13 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
             {
                 var rangirani = new List<Ucenik>();
 
-                string pol =muski +","+ zenski;
+                string pol = "";
+                if (muski != null && zenski != null)
+                    pol = muski + "," + zenski;
+                else if (muski == null) 
+                pol = zenski;
+                else
+                pol = muski;
 
 
 
@@ -469,7 +478,7 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
                     sb.Append(@"<html> <head> </head>
                <body>
                     <div id='title-div'>
-                        <img src='logo.png'>
+                        <img src="+ Path.Combine(_environment.ContentRootPath,"wwwroot/logo.png")+  @">
                         <h1> " + listaNaslov + @" učenici </h1>
                     </div> 
                     <table align='center'>

@@ -13,6 +13,7 @@ using DomUcenikaSvilajnac.ModelResources;
 //using Microsoft.AspNetCore.Mvc;
 using DomUcenikaSvilajnac.Common.Models.ModelResources;
 using System.Collections.ObjectModel;
+using Microsoft.AspNetCore.Hosting;
 
 namespace DomUcenikaSvilajnac.DAL.RepoPattern
 {
@@ -30,11 +31,11 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
         /// <summary>
         /// Inicijalizacija instance "UnitOfWork" klase.
         /// </summary>
-        public UnitOfWork(UcenikContext context, IMapper mapper)
+        public UnitOfWork(UcenikContext context, IMapper mapper,IHostingEnvironment environment)
         {
             _context = context;
             Mapper = mapper;
-            Ucenici = new UcenikRepository(_context, mapper);
+            Ucenici = new UcenikRepository(_context, mapper,environment);
             Opstine = new OpstinaRepository(_context, mapper);
             Drzave = new DrzavaRepository(_context);
             Polovi = new PolRepository(_context);
