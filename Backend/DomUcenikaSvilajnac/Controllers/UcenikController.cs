@@ -38,16 +38,18 @@ namespace DomUcenikaSvilajnac.Controllers
         public IConverter _converter;
 
         public IHostingEnvironment _hostingEnvironment;
+        public ITransliterator _transliterator;
 
         /// <summary>
         /// Inicijalizacija instance klase UcenikController i deklarisanje mappera i unitofwork-a.
         /// </summary>
-        public UcenikController(IMapper mapper, IUnitOfWork unitOfWork,IConverter converter, IHostingEnvironment hostingEnvironment)
+        public UcenikController(IMapper mapper, IUnitOfWork unitOfWork,IConverter converter, IHostingEnvironment hostingEnvironment,ITransliterator transliterator)
         {
             _converter = converter;
             _mapper = mapper;
             UnitOfWork = unitOfWork;
             _hostingEnvironment = hostingEnvironment;
+            _transliterator = transliterator;
         }
 
         /// <summary>
@@ -361,23 +363,17 @@ namespace DomUcenikaSvilajnac.Controllers
 
         [HttpGet]
         [Route("pdf")]
-        public IActionResult GetPdf( string muski, string zenski, string pismo )
+        public IActionResult GetPdf( string muski, string zenski, string pismo,string razred,string naslov )
         {
 
-            
-            var imeFajla ="";
-            if (muski == "m" && zenski == "z" && pismo == "l")
-                imeFajla = "Primljeni_Učenici.pdf";
-            else if (muski == "m" && zenski == "z" && pismo == "c")
-                imeFajla = "Примљени_Ученици.pdf";
-            else if (muski == "m" && pismo == "l")
-                imeFajla = "Primljeni_Muški.pdf";
-            else if (muski == "m" && pismo == "c")
-                imeFajla = "Примљени_Мушки.pdf";
-            else if (zenski == "z" && pismo == "l")
-                imeFajla = "Primljeni_Ženski.pdf";
-            else if (zenski == "z" && pismo == "c")
-                imeFajla = "Примљени_Женски.pdf";
+
+
+            var imeFajla = UnitOfWork.Ucenici.vratiNaslove(naslov) + " " + muski + " " + zenski + " " + razred;
+            if (pismo == "c")
+                _transliterator.Transliterate(imeFajla);
+
+            imeFajla += ".pdf";
+           
 
             var globalSettings = new GlobalSettings
             {
@@ -398,7 +394,7 @@ namespace DomUcenikaSvilajnac.Controllers
             var objectSettings = new ObjectSettings
             {
                 PagesCount = true,
-                HtmlContent = UnitOfWork.Ucenici.htmlListaRangiranih(muski, zenski, pismo),
+                HtmlContent = UnitOfWork.Ucenici.htmlListaRangiranih(muski, zenski, pismo, razred,naslov),
                 
                 WebSettings = { DefaultEncoding = "utf-8" ,UserStyleSheet = Path.Combine( _hostingEnvironment.WebRootPath,"PDFStyles","PDFstyle.css")},
                 HeaderSettings = { FontName = "Arial", FontSize = 9 },
