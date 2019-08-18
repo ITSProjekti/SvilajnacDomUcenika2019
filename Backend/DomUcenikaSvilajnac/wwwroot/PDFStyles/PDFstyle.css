@@ -48,7 +48,8 @@ td, th {
     font-family: sans-serif;
     height: 35px;
     border-bottom: 1px solid #dedede;
-    padding-top: 9px;
+    line-height:32px;
+    vertical-align: middle;
     font-size: 16px;
 }
 
