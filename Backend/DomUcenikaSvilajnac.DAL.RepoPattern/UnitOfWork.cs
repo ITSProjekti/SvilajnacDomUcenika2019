@@ -31,11 +31,11 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
         /// <summary>
         /// Inicijalizacija instance "UnitOfWork" klase.
         /// </summary>
-        public UnitOfWork(UcenikContext context, IMapper mapper,IHostingEnvironment environment)
+        public UnitOfWork(UcenikContext context, IMapper mapper)
         {
             _context = context;
             Mapper = mapper;
-            Ucenici = new UcenikRepository(_context, mapper,environment);
+            Ucenici = new UcenikRepository(_context, mapper);
             Opstine = new OpstinaRepository(_context, mapper);
             Drzave = new DrzavaRepository(_context);
             Polovi = new PolRepository(_context);

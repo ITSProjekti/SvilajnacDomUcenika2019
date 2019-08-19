@@ -366,7 +366,7 @@ namespace DomUcenikaSvilajnac.Controllers
         public IActionResult GetPdf( string muski, string zenski, string pismo,string razred,string naslov )
         {
 
-
+            string logo = Path.Combine(_hostingEnvironment.WebRootPath, "logo.png");
 
             var imeFajla = UnitOfWork.Ucenici.vratiNaslove(naslov) + " " + muski + " " + zenski + " " +pismo + " " + razred ;
             if (pismo == "c")
@@ -394,7 +394,7 @@ namespace DomUcenikaSvilajnac.Controllers
             var objectSettings = new ObjectSettings
             {
                 PagesCount = true,
-                HtmlContent = UnitOfWork.Ucenici.htmlListaRangiranih(muski, zenski, pismo, razred,naslov),
+                HtmlContent = UnitOfWork.Ucenici.htmlListaRangiranih(muski, zenski, pismo, razred,naslov,logo),
                 
                 WebSettings = { DefaultEncoding = "utf-8" ,UserStyleSheet = Path.Combine( _hostingEnvironment.WebRootPath,"PDFStyles","PDFstyle.css")},
                 HeaderSettings = { FontName = "Arial", FontSize = 9 },

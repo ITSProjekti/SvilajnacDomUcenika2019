@@ -26,16 +26,14 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
         protected readonly UcenikContext _context;
         public IMapper Mapper { get; }
         public ITransliterator transliterator;
-        public IHostingEnvironment _environment;
         /// <summary>
         /// Inicijalizacije instance klase UcenikRepository.
         /// </summary>
-        public UcenikRepository(UcenikContext context, IMapper mapper, IHostingEnvironment environment) : base(context)
+        public UcenikRepository(UcenikContext context, IMapper mapper) : base(context)
         {
             transliterator = LatUCirTransliterator.Instance;
             _context = context;
             Mapper = mapper;
-            _environment = environment;
         }
 
         public IUcenikRepository Ucenici { get; set; }
@@ -440,7 +438,7 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
 
 
         //treba odvojiti vrati muske i vrati zenske
-        public  string htmlListaRangiranih(string muski, string zenski, string pismo,string razred,string naslov)
+        public  string htmlListaRangiranih(string muski, string zenski, string pismo,string razred,string naslov,string logo)
         {
             try
             {
@@ -478,7 +476,7 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
                     sb.Append(@"<html> <head> </head>
                <body>
                     <div id='title-div'>
-                        <img src="+ Path.Combine(_environment.ContentRootPath,"wwwroot/logo.png")+  @">
+                        <img src="+ logo + @">
                         <h1> " + listaNaslov + @" učenici </h1>
                     </div> 
                     <table align='center'>
@@ -529,7 +527,7 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
                                         sb.Append(@"<html> <head> </head>
                <body>      
                     <div id='title-div'>
-                        <img src=" + Path.Combine(_environment.ContentRootPath, "wwwroot/logo.png") + @">
+                        <img src=" + logo + @">
                         <h1> " + transliterator.Transliterate(listaNaslov) + @" ученици </h1>
                     </div> 
                     <table align='center'>
