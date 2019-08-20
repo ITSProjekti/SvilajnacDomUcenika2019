@@ -354,12 +354,12 @@ export const store = new Vuex.Store({
                     id: payload.mestoPrebivalista.id,
                     nazivMesta: payload.mestoPrebivalista.nazivMesta
               },
-              ucenikEdit.prethodnaSkola={
-                  id: payload.prethodnaSkola.id,
-                  nazivPrethodneSkole: payload.prethodnaSkola.nazivPrethodneSkole,
-                  opstinaId: payload.prethodnaSkola.opstinaId
+              // ucenikEdit.prethodnaSkola={
+              //     id: payload.prethodnaSkola.id,
+              //     nazivPrethodneSkole: payload.prethodnaSkola.nazivPrethodneSkole,
+              //     opstinaId: payload.prethodnaSkola.opstinaId
 
-              },
+              // },
             
               ucenikEdit.upisanaSkola={
                 id: payload.upisanaSkola.id,
@@ -367,10 +367,10 @@ export const store = new Vuex.Store({
                 opstinaId: payload.upisanaSkola.opstinaId
 
               },
-              ucenikEdit.mestoZavrseneSkole={
-                    id: payload.mestoZavrseneSkole.id,
-                    nazivMesta: payload.mestoZavrseneSkole.nazivMesta
-              },
+              // ucenikEdit.mestoZavrseneSkole={
+              //       id: payload.mestoZavrseneSkole.id,
+              //       nazivMesta: payload.mestoZavrseneSkole.nazivMesta
+              // },
               ucenikEdit.opstina= {
                    id: payload.opstina.id,
                    nazivOpstine: payload.opstina.nazivOpstine,
@@ -993,15 +993,15 @@ export const store = new Vuex.Store({
                 mestoPrebivalista: {
                     id: payload.mestoPrebivalista.id
                 },
-                prethodnaSkola:{
-                    id: payload.prethodnaSkola.id
-                },
+                // prethodnaSkola:{
+                //     id: payload.prethodnaSkola.id
+                // },
                 upisanaSkola:{
                     id: payload.upisanaSkola.id
                 },
-                mestoZavrseneSkole:{
-                    id: payload.mestoZavrseneSkole.id
-                },
+                // mestoZavrseneSkole:{
+                //     id: payload.mestoZavrseneSkole.id
+                // },
                 opstina: {
                     id: payload.opstina.id,
                 },
@@ -1316,15 +1316,15 @@ export const store = new Vuex.Store({
                 mestoPrebivalista: {
                     id: payload.mestoPrebivalista.id
                 },
-                prethodnaSkola:{
-                    id: payload.prethodnaSkola.id
-                },
+                // prethodnaSkola:{
+                //     id: payload.prethodnaSkola.id
+                // },
                 upisanaSkola:{
                     id: payload.upisanaSkola.id
                 },
-                mestoZavrseneSkole:{
-                    id: payload.mestoZavrseneSkole.id
-                },
+                // mestoZavrseneSkole:{
+                //     id: payload.mestoZavrseneSkole.id
+                // },
                 opstina: {
                     id: payload.opstina.id,
                 },

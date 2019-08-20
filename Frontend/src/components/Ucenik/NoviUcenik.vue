@@ -319,7 +319,7 @@
 
 
 
-                               <v-container fluid>
+                               <!-- <v-container fluid>
                               <v-layout row wrap>
                               <v-flex offset-sm1  xs12 sm3 class="mt-4">
                               <p>Završena škola (osnovna)</p>
@@ -338,9 +338,9 @@
                                           :rules="[rules.required]"
                                         ></v-select>
                                       </v-flex>
-                                    </v-layout>
-                                  </v-container>
-                               <v-container fluid>
+                                </v-layout>
+                                </v-container> -->
+                    <!-- <v-container fluid>
                     <v-layout row wrap>
                     <v-flex offset-sm1  xs12 sm3 class="mt-4">
                      <p>Mesto prethodno zavrsene škole</p>
@@ -360,7 +360,7 @@
                               ></v-select>
                             </v-flex>
                           </v-layout>
-                        </v-container>
+                        </v-container> -->
                                <v-container fluid>
                     <v-layout row wrap>
                     <v-flex offset-sm1  xs12 sm3 class="mt-4">
@@ -780,10 +780,10 @@ import moment from 'moment'
         dan: '',
         mesec: '',
         godina: '',
-        mestoZavrseneSkole: {
-          id: '',
-          nazivMesta: ''
-        },
+        // mestoZavrseneSkole: {
+        //   id: '',
+        //   nazivMesta: ''
+        // },
         mestoRodjenja: {
           id: '',
           nazivMesta: ''
@@ -792,11 +792,11 @@ import moment from 'moment'
           id: '',
           nazivMesta: ''
         },
-        prethodnaSkola: {
-          id: '',
-          nazivPrethodneSkole: '',
-          opstinaId: '',
-        },
+        // prethodnaSkola: {
+        //   id: '',
+        //   nazivPrethodneSkole: '',
+        //   opstinaId: '',
+        // },
           upisanaSkola: {
             id: '',
             nazivSrednjeSkole: '',
@@ -886,9 +886,9 @@ import moment from 'moment'
           this.editedItem.postanskiBroj.id !== '' &&
           this.editedItem.mestoRodjenja.id !== '' &&
           this.editedItem.mestoPrebivalista.id !== '' &&
-          this.editedItem.mestoZavrseneSkole.id !== '' &&
+          // this.editedItem.mestoZavrseneSkole.id !== '' &&
           this.editedItem.smer.id !== '' &&
-          this.editedItem.prethodnaSkola.id !== '' &&
+          // this.editedItem.prethodnaSkola.id !== '' &&
           this.editedItem.upisanaSkola.id !== '' &&
           this.editedItem.razred.id !== '' &&
           this.editedItem.roditelji[0].ime !== '' &&

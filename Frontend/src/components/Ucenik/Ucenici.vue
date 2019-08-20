@@ -337,10 +337,10 @@ import axios from 'axios'
         dan: '',
         mesec: '',
         godina: '',
-        mestoZavrseneSkole: {
-          id: '',
-          nazivMesta: ''
-        },
+        // mestoZavrseneSkole: {
+        //   id: '',
+        //   nazivMesta: ''
+        // },
         mestoRodjenja: {
           id: '',
           nazivMesta: ''
@@ -349,11 +349,11 @@ import axios from 'axios'
           id: '',
           nazivMesta: ''
         },
-        prethodnaSkola: {
-          id: '',
-          nazivPrethodneSkole: '',
-          opstinaId: '',
-        },
+        // prethodnaSkola: {
+        //   id: '',
+        //   nazivPrethodneSkole: '',
+        //   opstinaId: '',
+        // },
           upisanaSkola: {
             id: '',
             nazivSrednjeSkole: '',
@@ -439,10 +439,10 @@ import axios from 'axios'
         dan: '',
         mesec: '',
         godina: '',
-        mestoZavrseneSkole: {
-          id: '',
-          nazivMesta: ''
-        },
+        // mestoZavrseneSkole: {
+        //   id: '',
+        //   nazivMesta: ''
+        // },
         mestoRodjenja: {
           id: '',
           nazivMesta: ''
@@ -451,11 +451,11 @@ import axios from 'axios'
           id: '',
           nazivMesta: ''
         },
-        prethodnaSkola: {
-          id: '',
-          nazivPrethodneSkole: '',
-          opstinaId: '',
-        },
+        // prethodnaSkola: {
+        //   id: '',
+        //   nazivPrethodneSkole: '',
+        //   opstinaId: '',
+        // },
           upisanaSkola: {
             id: '',
             nazivSrednjeSkole: '',
