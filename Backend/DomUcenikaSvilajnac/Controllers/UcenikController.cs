@@ -325,19 +325,6 @@ namespace DomUcenikaSvilajnac.Controllers
             }
 
             var ucenik = await UnitOfWork.Ucenici.GetAsync(id);
-
-
-            if (ucenik.Staratelji.Count == 0)
-                ucenik.Staratelji = new Collection<Staratelj>()
-                {
-                    new Staratelj()
-                    {
-                        Id = 0,
-                        Ime = "",
-                        Prezime ="",
-                        UcenikId = 0
-                    }
-                };
           
             var noviUcenik = _mapper.Map<Ucenik, UcenikResource>(ucenik);
             var mapiranUcenik = await UnitOfWork.Ucenici.mapiranjeZaDeleteUcenika(noviUcenik);
