@@ -19,6 +19,7 @@ using Microsoft.Extensions.FileProviders;
 using System.IO;
 using System.Reflection;
 using DomUcenikaSvilajnac.Common.Services;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace DomUcenikaSvilajnac
 {
@@ -44,6 +45,8 @@ namespace DomUcenikaSvilajnac
             //liniju koju smo dodali kako bismo ispisali listu postanskih brojeva u opstini kontroleru
             services.AddMvc().AddJsonOptions(options => { options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore; });
 
+
+           
             services.AddAutoMapper();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddTransient<ITransliterator, LatUCirTransliterator>();
@@ -70,7 +73,14 @@ namespace DomUcenikaSvilajnac
 
             app.UseStaticFiles();
 
-            
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+
+            app.UseAuthentication();
+            app.UseDeveloperExceptionPage();
+
 
             app.UseStaticFiles(new StaticFileOptions
             {
