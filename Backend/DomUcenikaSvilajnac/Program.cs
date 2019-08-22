@@ -28,7 +28,7 @@ namespace DomUcenikaSvilajnac
                           .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
 
 }
-)
+).UseUrls("http://localhost:62768")
 .UseStartup<Startup>()
 .Build();
         }
