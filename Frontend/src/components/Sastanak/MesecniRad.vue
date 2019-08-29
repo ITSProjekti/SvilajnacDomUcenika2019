@@ -130,7 +130,7 @@ editModel:{
         DugmeSubmit: function(){
         this.Mesec = 'Loading...';
         var vm = this;
-        axios.post('http://localhost:62768/api/MesecniPlanRada')
+        axios.post('http://192.168.1.44:62768/api/MesecniPlanRada')
         .then(function(response){
             vm.Mesec = response.data[0];
         })

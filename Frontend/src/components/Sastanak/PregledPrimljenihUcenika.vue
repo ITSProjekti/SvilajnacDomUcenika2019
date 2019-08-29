@@ -544,10 +544,10 @@ import axios from 'axios'
       otvoriPDF() {
         var self = this;
         this.createPdfUrl();
-        axios.get('http://localhost:62768/api/ucenik/pdf'+ this.pdfUrl)
+        axios.get('http://192.168.1.44:62768/api/ucenik/pdf'+ this.pdfUrl)
         .then(function (response) {
           self.dialogPDF = false;
-          window.open("http://localhost:62768/" + response.data)
+          window.open("http://192.168.1.44:62768/" + response.data)
         })
         .catch(function (error) {
           console.log(error);
@@ -561,7 +561,7 @@ import axios from 'axios'
         };
 
        var self = this;
-        axios.post('http://localhost:62768/api/Primljeni/', parametriZaPrijavu)
+        axios.post('http://192.168.1.44:62768/api/Primljeni/', parametriZaPrijavu)
         .then(function (response) {
           console.log(response.data);
           console.log(parametriZaPrijavu);
@@ -573,7 +573,7 @@ import axios from 'axios'
         });
       },
        PrijavljenUcenik(){
-       this.form.post('http://localhost:62768/api/Primljeni/1/1/30')
+       this.form.post('http://192.168.1.44:62768/api/Primljeni/1/1/30')
        /*  brojMuskihKandidata: this.brojMuskihKandidata,
          brojZenskihKandidata: this.brojZenskihKandidata,
          brojBodova: this.brojBodova
@@ -590,7 +590,7 @@ import axios from 'axios'
          console.log("daskkldasnlkndasknja");
         this.brojMuskihKandidata = 'Loading...';
         var vm = this;
-        axios.get('http://localhost:62768/api/Primljeni/10/10/10')
+        axios.get('http://192.168.1.44:62768/api/Primljeni/10/10/10')
         .then(function(response){
             vm.brojMuskihKandidata = response.data[0];
             console.log(response.data[0]);

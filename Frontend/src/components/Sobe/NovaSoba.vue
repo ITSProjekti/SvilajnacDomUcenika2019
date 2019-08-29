@@ -182,7 +182,7 @@
         DugmeSubmit: function(){
         this.BrojSobe = 'Loading...';
         var vm = this;
-        axios.post('http://localhost:62768/api/sobe')
+        axios.post('http://192.168.1.44:62768/api/sobe')
         .then(function(response){
             vm.BrojSobe = response.data[0];
             console.log(response.data[0]);
