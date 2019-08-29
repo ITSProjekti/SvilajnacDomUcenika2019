@@ -162,7 +162,7 @@ rules:{
         DugmeSubmit: function(){
         this.ProgramskoPodrucje = 'Loading...';
         var vm = this;
-        axios.post('http://192.168.1.44:62768/api/GodisnjiProgramRada')
+        axios.post('http://localhost:62768/api/GodisnjiProgramRada')
         .then(function(response){
             vm.ProgramskoPodrucje = response.data[0];
         })

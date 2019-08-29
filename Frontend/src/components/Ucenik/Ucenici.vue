@@ -650,7 +650,7 @@ import axios from 'axios'
         };
 
        var self = this;
-        axios.post('http://192.168.1.44:62768/api/Primljeni/', parametriZaPrijavu)
+        axios.post('http://localhost:62768/api/Primljeni/', parametriZaPrijavu)
         .then(function (response) {
           console.log(response.data);
           console.log(parametriZaPrijavu);
@@ -661,7 +661,7 @@ import axios from 'axios'
           console.log(error);
         });
 
-        // axios.post('http://192.168.1.44:62768/api/Primljeni/', parametriZaPrijavu, {
+        // axios.post('http://localhost:62768/api/Primljeni/', parametriZaPrijavu, {
         //   headers: {
         //   'content-type': 'application/json'
         //   }
