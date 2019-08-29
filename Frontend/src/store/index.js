@@ -434,7 +434,7 @@ export const store = new Vuex.Store({
     actions: {
        LoadedStatusiPrijave( {commit } ) {         
             commit('setLoading', true)
-            axios.get('http://localhost:62768/api/statusiprijave').then((response) => {       
+            axios.get('http://192.168.1.44/api/statusiprijave').then((response) => {       
               commit('setLoadedStatusiPrijave', response.data)        
               commit('setLoading', false)        
             }).catch(
@@ -446,7 +446,7 @@ export const store = new Vuex.Store({
           },
         loadedSastanak( {commit } ) {        
             commit('setLoading', true)
-            axios.get('http://localhost:62768/api/Sastanci').then((response) => {   
+            axios.get('http://192.168.1.44/api/Sastanci').then((response) => {   
               commit('setLoadedSastanak', response.data)       
               commit('setLoading', false)       
             }).catch(
@@ -461,7 +461,7 @@ export const store = new Vuex.Store({
             // commit sluzi za pozivanje mutatacija (mutations) metoda
             // podesavanjem loading na true ulazi se u fazu ucitavanja te se na odgovarajucem mesto prikazuje neki vid loading stanja
             commit('setLoading', true)
-            axios.get('http://localhost:62768/api/stepenistrucnespreme').then((response) => {
+            axios.get('http://192.168.1.44/api/stepenistrucnespreme').then((response) => {
             // pozivanje mutatora za popunjavanje State-a sa zeljenim podacima, response.data je ono sto stize sa backend-a
               commit('setLoadedSSS', response.data)
               // nakon ucitanih podataka skinuti prikaz stanja loading-a sa odgovarajucih mesta
@@ -476,7 +476,7 @@ export const store = new Vuex.Store({
           },
           loadedGodisnjiProgram( {commit } ) {
             commit('setLoading', true)
-            axios.get('http://localhost:62768/api/GodisnjiProgramRada').then((response) => {
+            axios.get('http://192.168.1.44/api/GodisnjiProgramRada').then((response) => {
                 commit('setLoadedGodisnjiProgram', response.data)
               commit('setLoading', false)
               
@@ -489,7 +489,7 @@ export const store = new Vuex.Store({
           },
           loadedMesecni( {commit } ) {
             commit('setLoading', true)
-            axios.get('http://localhost:62768/api/MesecniPlanRada').then((response) => {
+            axios.get('http://192.168.1.44/api/MesecniPlanRada').then((response) => {
                 commit('setLoadedMesecni', response.data)
               commit('setLoading', false)
               
@@ -502,7 +502,7 @@ export const store = new Vuex.Store({
           },
           loadedSobe( {commit } ) {
             commit('setLoading', true)
-            axios.get('http://localhost:62768/api/Sobe').then((response) => {
+            axios.get('http://192.168.1.44/api/Sobe').then((response) => {
               
                 commit('setLoadedSobe', response.data)
               commit('setLoading', false)
@@ -516,7 +516,7 @@ export const store = new Vuex.Store({
           },
           loadedVaspitneGrupe( {commit } ) {
             commit('setLoading', true)
-            axios.get('http://localhost:62768/api/vaspitnegrupe').then((response) => {
+            axios.get('http://192.168.1.44/api/vaspitnegrupe').then((response) => {
               
               commit('setLoadedVaspitneGrupe', response.data)
               commit('setLoading', false)
@@ -529,7 +529,7 @@ export const store = new Vuex.Store({
                     )
           },loadedVaspitac( {commit } ) {
             commit('setLoading', true)
-            axios.get('http://localhost:62768/api/vaspitaci').then((response) => {
+            axios.get('http://192.168.1.44/api/vaspitaci').then((response) => {
            
               commit('setLoadedVaspitac', response.data)
               commit('setLoading', false)
@@ -543,7 +543,7 @@ export const store = new Vuex.Store({
           },
           loadedKazne( {commit } ) {
             commit('setLoading', true)
-            axios.get('http://localhost:62768/api/kazne').then((response) => {
+            axios.get('http://192.168.1.44/api/kazne').then((response) => {
            
               commit('setLoadedKazne', response.data)
               commit('setLoading', false)
@@ -557,7 +557,7 @@ export const store = new Vuex.Store({
           },
           loadedPohvale( {commit } ) {
             commit('setLoading', true)
-            axios.get('http://localhost:62768/api/pohvale').then((response) => {
+            axios.get('http://192.168.1.44/api/pohvale').then((response) => {
            
               commit('setLoadedPohvale', response.data)
               commit('setLoading', false)
@@ -571,7 +571,7 @@ export const store = new Vuex.Store({
           },
           loadedTipoviPorodice( {commit } ) {
             commit('setLoading', true)
-            axios.get('http://localhost:62768/api/tipoviporodice').then((response) => {
+            axios.get('http://192.168.1.44/api/tipoviporodice').then((response) => {
            
               commit('setLoadedTipovePorodice', response.data)
               commit('setLoading', false)
@@ -586,7 +586,7 @@ export const store = new Vuex.Store({
           // HTTP GET zahtev za razrede koje ucenik moze da upise
         loadedRazred( {commit } ) {
             commit('setLoading', true)
-            axios.get('http://localhost:62768/api/razredi').then((response) => {
+            axios.get('http://192.168.1.44/api/razredi').then((response) => {
            
               commit('setLoadedRazred', response.data)
               commit('setLoading', false)
@@ -601,7 +601,7 @@ export const store = new Vuex.Store({
           // HTTP GET zahtev za sva mesta u Srbiji
         loadedMesta( {commit } ) {
             commit('setLoading', true)
-            axios.get('http://localhost:62768/api/mesta').then((response) => {
+            axios.get('http://192.168.1.44/api/mesta').then((response) => {
            
               commit('setLoadedMesta', response.data)
               commit('setLoading', false)
@@ -616,7 +616,7 @@ export const store = new Vuex.Store({
           // HTTP GET zahtev za sve osnovne skole u Srbiji
         loadedOS( {commit } ) {
             commit('setLoading', true)
-            axios.get('http://localhost:62768/api/osnovneskole').then((response) => {
+            axios.get('http://192.168.1.44/api/osnovneskole').then((response) => {
               
               commit('setLoadedOS', response.data)
               commit('setLoading', false)
@@ -631,7 +631,7 @@ export const store = new Vuex.Store({
           // HTTP GET zahtev za sve srednje skole u Srbiji
           loadedSS( {commit } ) {
             commit('setLoading', true)
-            axios.get('http://localhost:62768/api/srednjeskole').then((response) => {
+            axios.get('http://192.168.1.44/api/srednjeskole').then((response) => {
             
               commit('setLoadedSS', response.data)
               commit('setLoading', false)
@@ -646,7 +646,7 @@ export const store = new Vuex.Store({
         // HTTP GET zahtev za sve smerove koje ucenik moze upisati u Svilajncu
         loadedSmerovi( {commit } ) {
             commit('setLoading', true)
-            axios.get('http://localhost:62768/api/smerovi').then((response) => {
+            axios.get('http://192.168.1.44/api/smerovi').then((response) => {
           
               commit('setLoadedSmerovi', response.data)
               commit('setLoading', false)
@@ -661,7 +661,7 @@ export const store = new Vuex.Store({
           // HTTP GET zahtev za sve postanske brojeve u srbiji
         loadedPostanskiBrojevi( {commit } ) {
         commit('setLoading', true)
-        axios.get('http://localhost:62768/api/postanskiBrojevi').then((response) => {
+        axios.get('http://192.168.1.44/api/postanskiBrojevi').then((response) => {
          
           commit('setLoadedPostanskeBrojeve', response.data)
           commit('setLoading', false)
@@ -676,7 +676,7 @@ export const store = new Vuex.Store({
       // HTTP GET zahtev za prikaz polova
         loadedPolovi( {commit } ) {
             commit('setLoading', true)
-            axios.get('http://localhost:62768/api/polovi').then((response) => {
+            axios.get('http://192.168.1.44/api/polovi').then((response) => {
            
               commit('setLoadedPolove', response.data)
               commit('setLoading', false)
@@ -691,7 +691,7 @@ export const store = new Vuex.Store({
           // HTTP GET zahtev za sve prijavljene ucenike
         loadedUcenici( {commit } ) {
             commit('setLoading', true)
-            axios.get('http://localhost:62768/api/ucenik').then((response) => {
+            axios.get('http://192.168.1.44/api/ucenik').then((response) => {
             
               commit('setLoadedUcenike', response.data)
               commit('setLoading', false)      
@@ -704,7 +704,7 @@ export const store = new Vuex.Store({
           },
           loadedPrimljeni( {commit } ) {
             commit('setLoading', true)
-            axios.get('http://localhost:62768/api/Primljeni').then((response) => {
+            axios.get('http://192.168.1.44/api/Primljeni').then((response) => {
             
               commit('setloadedPrimljeni', response.data)
               commit('setLoading', false)
@@ -718,7 +718,7 @@ export const store = new Vuex.Store({
           },
           loadedPDF( {commit } ) {
             commit('setLoading', true)
-            axios.get('http://localhost:62768/api/ucenik').then((response) => {
+            axios.get('http://192.168.1.44/api/ucenik').then((response) => {
             
               commit('setLoadedPDF', response.data)
               commit('setLoading', false)
@@ -733,7 +733,7 @@ export const store = new Vuex.Store({
           // HTTP GET zahtev za sve opstine u Srbiji
           loadedOpstine( {commit } ) {
             commit('setLoading', true)
-            axios.get('http://localhost:62768/api/opstine').then((response) => {
+            axios.get('http://192.168.1.44/api/opstine').then((response) => {
                
               commit('setLoadedOpstine', response.data)
             
@@ -749,7 +749,7 @@ export const store = new Vuex.Store({
           // HTTP GET zahtev za sve drzave na svetu
           loadedDrzave( {commit } ) {
             commit('setLoading', true)
-            axios.get('http://localhost:62768/api/drzave').then((response) => {
+            axios.get('http://192.168.1.44/api/drzave').then((response) => {
                
               commit('setLoadedDrzave', response.data)
             
@@ -778,7 +778,7 @@ export const store = new Vuex.Store({
             }
             commit('setLoading', true)
             console.log(sastanak)
-            axios.post('http://localhost:62768/api/Sastanci',sastanak, {
+            axios.post('http://192.168.1.44/api/Sastanci',sastanak, {
                 onUploadProgress: uploadEvent =>{
                     console.log('Post request progress:' + Math.round(uploadEvent.loaded / uploadEvent.total * 100) + '%'  )                    
                 }
@@ -802,7 +802,7 @@ export const store = new Vuex.Store({
             }
             commit('setLoading', true)
             console.log(kazna)
-            axios.post('http://localhost:62768/api/kazne',kazna, {
+            axios.post('http://192.168.1.44/api/kazne',kazna, {
                 onUploadProgress: uploadEvent =>{
                     console.log('Post request progress:' + Math.round(uploadEvent.loaded / uploadEvent.total * 100) + '%'  )                    
                 }
@@ -827,7 +827,7 @@ export const store = new Vuex.Store({
           }
             commit('setLoading', true)
             console.log(pohvala)
-            axios.post('http://localhost:62768/api/pohvale',pohvala, {
+            axios.post('http://192.168.1.44/api/pohvale',pohvala, {
                 onUploadProgress: uploadEvent =>{
                     console.log('Post request progress:' + Math.round(uploadEvent.loaded / uploadEvent.total * 100) + '%'  )                    
                 }
@@ -851,7 +851,7 @@ export const store = new Vuex.Store({
             }
             commit('setLoading', true)
    
-            axios.post('http://localhost:62768/api/GodisnjiProgramRada',godisnjiProgram, {
+            axios.post('http://192.168.1.44/api/GodisnjiProgramRada',godisnjiProgram, {
                 onUploadProgress: uploadEvent =>{
                     console.log('Post request progress:' + Math.round(uploadEvent.loaded / uploadEvent.total * 100) + '%'  )                    
                 }
@@ -877,7 +877,7 @@ export const store = new Vuex.Store({
           }
           commit('setLoading', true)
  
-          axios.post('http://localhost:62768/api/MesecniPlanRada',mesecni, {
+          axios.post('http://192.168.1.44/api/MesecniPlanRada',mesecni, {
               onUploadProgress: uploadEvent =>{
                   console.log('Post request progress:' + Math.round(uploadEvent.loaded / uploadEvent.total * 100) + '%'  )                    
               }
@@ -903,7 +903,7 @@ export const store = new Vuex.Store({
             }
             commit('setLoading', true)
    
-            axios.post('http://localhost:62768/api/Sobe',soba, {
+            axios.post('http://192.168.1.44/api/Sobe',soba, {
                 onUploadProgress: uploadEvent =>{
                     console.log('Post request progress:' + Math.round(uploadEvent.loaded / uploadEvent.total * 100) + '%'  )                    
                 }
@@ -926,7 +926,7 @@ export const store = new Vuex.Store({
             }
             commit('setLoading', true)
    
-            axios.post('http://localhost:62768/api/vaspitnegrupe',vaspitnaGrupa, {
+            axios.post('http://192.168.1.44/api/vaspitnegrupe',vaspitnaGrupa, {
                 onUploadProgress: uploadEvent =>{
                     console.log('Post request progress:' + Math.round(uploadEvent.loaded / uploadEvent.total * 100) + '%'  )                    
                 }
@@ -951,7 +951,7 @@ export const store = new Vuex.Store({
             }
             commit('setLoading', true)
             console.log(vaspitac)
-            axios.post('http://localhost:62768/api/vaspitaci',vaspitac, {
+            axios.post('http://192.168.1.44/api/vaspitaci',vaspitac, {
                 onUploadProgress: uploadEvent =>{
                     console.log('Post request progress:' + Math.round(uploadEvent.loaded / uploadEvent.total * 100) + '%'  )                    
                 }
@@ -1049,7 +1049,7 @@ export const store = new Vuex.Store({
                
             commit('setLoading', true)
           
-            axios.post('http://localhost:62768/api/ucenik',ucenik, {
+            axios.post('http://192.168.1.44/api/ucenik',ucenik, {
                 onUploadProgress: uploadEvent =>{
                     console.log('Post request progress:' + Math.round(uploadEvent.loaded / uploadEvent.total * 100) + '%'  )                    
                 }
@@ -1069,7 +1069,7 @@ export const store = new Vuex.Store({
         deleteVaspitnaGrupa( {commit },payload ) {
             commit('setLoading', true)
            
-            axios.delete('http://localhost:62768/api/vaspitneGrupe/'+payload).then((response) => {
+            axios.delete('http://192.168.1.44/api/vaspitneGrupe/'+payload).then((response) => {
               
               commit('deleteVaspitnaGrupa', response.data)
               store.dispatch('loadedUcenici')
@@ -1080,7 +1080,7 @@ export const store = new Vuex.Store({
           deleteSastanak( {commit },payload ) {
             commit('setLoading', true)
            
-            axios.delete('http://localhost:62768/api/Sastanci/'+payload).then((response) => {
+            axios.delete('http://192.168.1.44/api/Sastanci/'+payload).then((response) => {
               
               commit('deleteSastanak', response.data)
               commit('setLoading', false)
@@ -1089,7 +1089,7 @@ export const store = new Vuex.Store({
           deleteSoba( {commit },payload ) {
             commit('setLoading', true)
            
-            axios.delete('http://localhost:62768/api/Sobe/'+payload).then((response) => {
+            axios.delete('http://192.168.1.44/api/Sobe/'+payload).then((response) => {
               
               commit('deleteSoba', response.data)
               store.dispatch('loadedSobe')
@@ -1099,7 +1099,7 @@ export const store = new Vuex.Store({
           deleteGodisnjiProgram( {commit },payload ) {
             commit('setLoading', true)
            
-            axios.delete('http://localhost:62768/api/GodisnjiProgramRada/'+payload).then((response) => {
+            axios.delete('http://192.168.1.44/api/GodisnjiProgramRada/'+payload).then((response) => {
               
               commit('deleteGodisnjiProgram', response.data)
               store.dispatch('loadedGodisnjiProgram')
@@ -1109,7 +1109,7 @@ export const store = new Vuex.Store({
           deleteKazna( {commit },payload ) {
             commit('setLoading', true)
            
-            axios.delete('http://localhost:62768/api/kazne/'+payload).then((response) => {
+            axios.delete('http://192.168.1.44/api/kazne/'+payload).then((response) => {
               
               commit('deleteKazna', response.data)
               commit('setLoading', false)
@@ -1118,7 +1118,7 @@ export const store = new Vuex.Store({
           deletePohvala( {commit },payload ) {
             commit('setLoading', true)
            
-            axios.delete('http://localhost:62768/api/pohvale/'+payload).then((response) => {
+            axios.delete('http://192.168.1.44/api/pohvale/'+payload).then((response) => {
               
               commit('deletePohvala', response.data)
               commit('setLoading', false)
@@ -1127,7 +1127,7 @@ export const store = new Vuex.Store({
           deleteVaspitac( {commit },payload ) {
             commit('setLoading', true)
            
-            axios.delete('http://localhost:62768/api/vaspitaci/'+payload).then((response) => {
+            axios.delete('http://192.168.1.44/api/vaspitaci/'+payload).then((response) => {
               
               commit('deleteVaspitac', response.data)
               commit('setLoading', false)
@@ -1137,7 +1137,7 @@ export const store = new Vuex.Store({
         deleteUcenik( {commit },payload ) {
             commit('setLoading', true)
            
-            axios.delete('http://localhost:62768/api/ucenik/'+payload).then((response) => {
+            axios.delete('http://192.168.1.44/api/ucenik/'+payload).then((response) => {
               
               commit('deleteUcenik', response.data)
               commit('setLoading', false)
@@ -1147,7 +1147,7 @@ export const store = new Vuex.Store({
           deleteGodisnjiProgram( {commit },payload ) {
             commit('setLoading', true)
            
-            axios.delete('http://localhost:62768/api/GodisnjiProgramRada/'+payload).then((response) => {
+            axios.delete('http://192.168.1.44/api/GodisnjiProgramRada/'+payload).then((response) => {
               
               commit('deleteGodisnjiProgram', response.data)
               commit('setLoading', false)
@@ -1162,7 +1162,7 @@ export const store = new Vuex.Store({
                 }
             }
             commit('setLoading', true)
-            axios.put('http://localhost:62768/api/vaspitnegrupe/'+payload.id, vaspitneGrupe).then(function(response){
+            axios.put('http://192.168.1.44/api/vaspitnegrupe/'+payload.id, vaspitneGrupe).then(function(response){
                
                 commit('editVaspitneGrupe', response.data)
                 commit('setLoading', false)
@@ -1185,7 +1185,7 @@ export const store = new Vuex.Store({
             
         }
         commit('setLoading', true)
-        axios.put('http://localhost:62768/api/Sastanci/'+payload.id, sastanak).then(function(response){
+        axios.put('http://192.168.1.44/api/Sastanci/'+payload.id, sastanak).then(function(response){
            
             commit('editSastanak', response.data)
             commit('setLoading', false)
@@ -1204,7 +1204,7 @@ export const store = new Vuex.Store({
             Sprat: payload.Sprat
         }
         commit('setLoading', true)
-        axios.put('http://localhost:62768/api/Sobe/'+payload.id, sobe).then(function(response){
+        axios.put('http://192.168.1.44/api/Sobe/'+payload.id, sobe).then(function(response){
            
             commit('editSoba', response.data)
             commit('setLoading', false)
@@ -1223,7 +1223,7 @@ export const store = new Vuex.Store({
          Mesec: payload.Mesec
     }
     commit('setLoading', true)
-    axios.put('http://localhost:62768/api/GodisnjiProgramRada/'+payload.id, godisnjiProgram).then(function(response){
+    axios.put('http://192.168.1.44/api/GodisnjiProgramRada/'+payload.id, godisnjiProgram).then(function(response){
        
         commit('editGodisnjiProgram', response.data)
         commit('setLoading', false)
@@ -1242,7 +1242,7 @@ export const store = new Vuex.Store({
                 slika: payload.slika
             }
             commit('setLoading', true)
-            axios.put('http://localhost:62768/api/vaspitaci/'+payload.id, vaspitac).then(function(response){
+            axios.put('http://192.168.1.44/api/vaspitaci/'+payload.id, vaspitac).then(function(response){
                
                 commit('editVaspitaca', response.data)
                 commit('setLoading', false)
@@ -1260,7 +1260,7 @@ export const store = new Vuex.Store({
                 ucenikId: payload.ucenikId
             }
             commit('setLoading', true)
-            axios.put('http://localhost:62768/api/kazne/'+payload.id, kazna).then(function(response){
+            axios.put('http://192.168.1.44/api/kazne/'+payload.id, kazna).then(function(response){
                
                 commit('editKazne', response.data)
                 commit('setLoading', false)
@@ -1278,7 +1278,7 @@ export const store = new Vuex.Store({
                 ucenikId: payload.ucenikId
             }
             commit('setLoading', true)
-            axios.put('http://localhost:62768/api/pohvale/'+payload.id, pohvala).then(function(response){
+            axios.put('http://192.168.1.44/api/pohvale/'+payload.id, pohvala).then(function(response){
                
                 commit('editPohvale', response.data)
                 commit('setLoading', false)
@@ -1372,11 +1372,11 @@ export const store = new Vuex.Store({
             console.log('yo')
             console.log(ucenik)
             commit('setLoading', true)
-            axios.put('http://localhost:62768/api/ucenik/'+payload.id, ucenik).then(function(response){
+            axios.put('http://192.168.1.44/api/ucenik/'+payload.id, ucenik).then(function(response){
                console.log(response.data)
                 commit('editUcenik', response.data)
                 commit('setLoading', true)
-                axios.get('http://localhost:62768/api/vaspitnegrupe').then((response) => {
+                axios.get('http://192.168.1.44/api/vaspitnegrupe').then((response) => {
                   
                   commit('setLoadedVaspitneGrupe', response.data)
                   commit('setLoading', false)
