@@ -493,6 +493,7 @@
                                 required
                                  :rules="[rules.required]"
                               ></v-select>
+                              <!-- <p>opstina prebivalista je {{this.editedItem.opstinaPrebivalista.id}}</p> -->
                             </v-flex>
                           </v-layout>
                         </v-container>
@@ -517,6 +518,10 @@
                                 required
                                  :rules="[rules.required]"
                               ></v-select>
+                              <!-- <p>postanski brojevi su {{this.brojevi.postanskiBrojevi}}</p>
+                              <p>izabrani postanski broj je {{this.editedItem.postanskiBroj.id}}</p>
+                              <p>inicijalni postanski broj je {{this.inicijalniPostanskiBroj}}</p> -->
+                              
                             </v-flex>
                           </v-layout>
                         </v-container>
@@ -1153,6 +1158,8 @@ import moment from 'moment'
           file: '',
         showPreview: false,
         imagePreview: '',
+      //pomocna promenjiva za inicijhalni postanski broj
+      inicijalniPostanskiBroj: "",
       
       custom: true,
       editedIndex: -1,
@@ -1449,11 +1456,18 @@ import moment from 'moment'
      this.editedItem.staratelji.prezime=''
       },
       changedValue: function(value) {
+        
         function broj (opstina){
           return opstina.id===value
         }
+
+        this.inicijalniPostanskiBroj = this.editedItem.postanskiBroj.id;
+        //console.log("dodeljen inicijalni postanski");
+        
         this.editedItem.postanskiBroj.id=''
+        //console.log("obrisan postanski");
       this.brojevi=this.opstine.find(broj)
+      console.log("broj je: " + broj);
       },
       // v-data-picker generise datum u formatu DD-MM-GGGG te je neophodno prebaciti ova 3 podatka u 3 promenljive: dan,mesec i godinu
        formatiranjeDatuma()
@@ -1481,7 +1495,12 @@ import moment from 'moment'
           this.imagePreview=''
         this.$router.push('/ucenici')
       }  
-      }
+      },
+      mounted() {
+        this.changedValue(this.editedItem.opstinaPrebivalista.id);
+        this.editedItem.postanskiBroj.id = this.inicijalniPostanskiBroj;
+        // console.log("uspesno mountovan");
+    },
   }
 </script>
 

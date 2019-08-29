@@ -819,7 +819,6 @@ import axios from 'axios'
       },
       mounted() {
         document.getElementById("okidacUcenikaPoPolu").click();
-        clonsole.log("mountovan");
     },    
 
   }

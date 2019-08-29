@@ -242,6 +242,7 @@
                                                     :rules="[rules.required]">
                                                     </v-select>
                                                 </v-flex>
+                                                <!-- <p> postanskibroj id je {{ this.editedItem.postanskiBroj.id }}</p> -->
                                             </v-layout>
                                         </v-container>
                                     </template>
@@ -973,7 +974,7 @@ export default {
                 this.imagePreview = reader.result;
                 this.editedItem.slika = reader.result
             }.bind(this), false);
-            console.log(this.editedItem.slika)
+            //console.log(this.editedItem.slika)
             if (this.file) {
                 if (/\.(jpe?g|png|gif)$/i.test(this.file.name)) {
                     reader.readAsDataURL(this.file);
@@ -985,6 +986,7 @@ export default {
             this.editedItem.staratelji.prezime = ''
         },
         changedValue: function (value) {
+            //console.log("obrisan postanski");
             function broj(opstina) {
                 return opstina.id === value
             }
@@ -993,7 +995,7 @@ export default {
         },
         // v-data-picker generise datum u formatu DD-MM-GGGG te je neophodno prebaciti ova 3 podatka u 3 promenljive: dan,mesec i godinu
         formatiranjeDatuma() {
-            console.log(this.datum)
+            //console.log(this.datum)
             if (this.datum !== null) {
                 const dan = this.datum.slice(-2);
                 this.editedItem.dan = dan
