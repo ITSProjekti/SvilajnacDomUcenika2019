@@ -256,7 +256,7 @@ namespace DomUcenikaSvilajnac.DAL.RepoPattern
             float sumaBodovaKazni = _context.Kazne.Where(o => o.UcenikId == idUcenika).Sum(n => n.BodoviKazne);
 
 
-            if(ucenik.BrojPutaUDomu > 0)
+            if(ucenik.Razred.Id > 1)
             rezultat =((ucenik.PrethodniUspeh * 7) + (sumaBodovaPohvala - sumaBodovaKazni))+(3) + ucenik.MaterijalniPrihodi;
             else
             rezultat = ((ucenik.PrethodniUspeh * 7) + (sumaBodovaPohvala - sumaBodovaKazni)) +ucenik.MaterijalniPrihodi;
